@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Clara Morel — Photographe · Paris</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Manrope:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'Manrope',sans-serif;background:#fff;color:#111;overflow-x:hidden}
+
+/* NAV — top, clean, minimal */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(255,255,255,.96);backdrop-filter:blur(12px);border-bottom:1px solid #f0f0f0;padding:0 48px;height:64px;display:flex;align-items:center;justify-content:space-between}
+.nl{font-family:'Playfair Display',serif;font-style:italic;font-size:1.1rem;color:#111;text-decoration:none}
+.nc{display:flex;gap:32px;list-style:none}
+.nc a{font-size:.75rem;font-weight:500;letter-spacing:.06em;color:#888;text-decoration:none;transition:color .2s}
+.nc a:hover{color:#111}
+.n-btn{background:#111;color:#fff;font-size:.72rem;font-weight:600;letter-spacing:.06em;padding:10px 20px;text-decoration:none;transition:background .2s}
+.n-btn:hover{background:#333}
+
+/* HERO — split, photo left text right */
+.hero{min-height:100vh;display:grid;grid-template-columns:55% 45%;padding-top:64px}
+.hero-img{background:linear-gradient(160deg,#e8e8e8 0%,#d0d0d0 50%,#c0c0c0 100%);position:relative;overflow:hidden}
+.hero-img-pattern{position:absolute;inset:0;background-image:repeating-linear-gradient(45deg,transparent,transparent 30px,rgba(0,0,0,.02) 30px,rgba(0,0,0,.02) 31px)}
+.hero-img-tag{position:absolute;bottom:28px;left:28px;background:#fff;padding:12px 18px;font-size:.65rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#111}
+.hero-right{padding:80px 60px;display:flex;flex-direction:column;justify-content:center;background:#fafafa;border-left:1px solid #f0f0f0}
+.hr-tag{font-size:.65rem;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:#aaa;margin-bottom:24px;display:flex;align-items:center;gap:10px}
+.hr-tag::before{content:'';width:24px;height:1px;background:#aaa}
+.hr-h1{font-family:'Playfair Display',serif;font-size:clamp(2.5rem,4vw,4rem);font-weight:400;line-height:1.1;letter-spacing:-.01em;margin-bottom:20px}
+.hr-h1 em{font-style:italic;color:#888;display:block}
+.hr-desc{font-size:.88rem;font-weight:300;color:#666;line-height:1.85;margin-bottom:36px;max-width:360px}
+.hr-desc strong{color:#111;font-weight:500}
+.hr-actions{display:flex;gap:12px;margin-bottom:48px}
+.btn-black{background:#111;color:#fff;font-size:.72rem;font-weight:600;letter-spacing:.06em;padding:14px 24px;text-decoration:none;display:inline-flex;align-items:center;gap:8px;transition:background .2s}
+.btn-black:hover{background:#333}
+.btn-border{border:1px solid #ddd;color:#111;font-size:.72rem;font-weight:500;letter-spacing:.06em;padding:13px 22px;text-decoration:none;transition:border-color .2s,color .2s}
+.btn-border:hover{border-color:#111}
+.hr-stats{display:grid;grid-template-columns:1fr 1fr;gap:0;border-top:1px solid #eee;padding-top:32px}
+.hs{padding:16px 20px 16px 0;border-right:1px solid #eee}
+.hs:nth-child(even){padding-left:20px;border-right:none}
+.hs-n{font-family:'Playfair Display',serif;font-size:1.8rem;font-weight:400;font-style:italic;color:#111;line-height:1}
+.hs-l{font-size:.65rem;font-weight:500;letter-spacing:.06em;text-transform:uppercase;color:#aaa;margin-top:3px}
+
+/* GALLERY — simple 3-col grid */
+.gallery{padding:80px 48px}
+.g-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:32px;padding-bottom:16px;border-bottom:1px solid #f0f0f0}
+.g-title{font-family:'Playfair Display',serif;font-style:italic;font-size:1.4rem;font-weight:400}
+.g-filters{display:flex;gap:4px}
+.gf{font-size:.68rem;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:#aaa;background:none;border:none;cursor:pointer;padding:6px 12px;border-bottom:2px solid transparent;transition:all .2s}
+.gf.on,.gf:hover{color:#111;border-color:#111}
+.g-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px}
+.g-item{position:relative;overflow:hidden;cursor:pointer;background:#f5f5f5}
+.g-item:nth-child(1){grid-row:span 2}
+.g-item:nth-child(5){grid-column:span 2}
+.g-vis{width:100%;padding-bottom:100%;position:relative;transition:transform .5s ease}
+.g-item:nth-child(1) .g-vis{padding-bottom:200%}
+.g-item:nth-child(5) .g-vis{padding-bottom:50%}
+.g-item:hover .g-vis{transform:scale(1.04)}
+.gv1{background:linear-gradient(145deg,#e0e0e0,#c8c8c8)}
+.gv2{background:linear-gradient(145deg,#d0d0d0,#e0e0e0)}
+.gv3{background:linear-gradient(145deg,#c8c8c8,#d8d8d8)}
+.gv4{background:linear-gradient(145deg,#e8e8e8,#d0d0d0)}
+.gv5{background:linear-gradient(145deg,#d8d8d8,#c0c0c0)}
+.gv6{background:linear-gradient(145deg,#c0c0c0,#d8d8d8)}
+.g-vis{position:absolute;inset:0}
+.g-item{aspect-ratio:1}
+.g-item:nth-child(1){aspect-ratio:.5}
+.g-item:nth-child(5){aspect-ratio:2}
+.g-overlay{position:absolute;inset:0;background:rgba(0,0,0,0);transition:background .3s;display:flex;align-items:flex-end;padding:20px}
+.g-item:hover .g-overlay{background:rgba(0,0,0,.35)}
+.g-info{opacity:0;transform:translateY(8px);transition:all .3s}
+.g-item:hover .g-info{opacity:1;transform:translateY(0)}
+.g-cat{font-size:.6rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.7);margin-bottom:3px}
+.g-name{font-family:'Playfair Display',serif;font-style:italic;font-size:.95rem;color:#fff}
+
+/* ABOUT — simple two col */
+.about{padding:80px 48px;background:#fafafa;border-top:1px solid #f0f0f0;display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center}
+.ab-tag{font-size:.65rem;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:#aaa;margin-bottom:20px}
+.ab-h2{font-family:'Playfair Display',serif;font-size:clamp(1.8rem,3vw,2.8rem);font-weight:400;line-height:1.15;letter-spacing:-.01em;margin-bottom:20px}
+.ab-h2 em{font-style:italic;color:#888}
+.ab-p{font-size:.86rem;font-weight:300;color:#666;line-height:1.9;margin-bottom:14px}
+.ab-p strong{color:#111;font-weight:500}
+.ab-quote{margin-top:24px;padding:20px 24px;background:#fff;border-left:2px solid #111}
+.ab-q-text{font-family:'Playfair Display',serif;font-style:italic;font-size:.95rem;color:#444;line-height:1.7}
+.ab-q-name{margin-top:8px;font-size:.65rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#aaa}
+.ab-right{display:flex;flex-direction:column;gap:2px}
+.ab-item{padding:18px 20px;background:#fff;border:1px solid #f0f0f0;display:flex;justify-content:space-between;align-items:center;transition:border-color .2s}
+.ab-item:hover{border-color:#111}
+.ab-item-label{font-size:.78rem;font-weight:500;color:#666}
+.ab-item-val{font-size:.78rem;font-weight:600;color:#111;text-align:right}
+
+/* SERVICES */
+.services{padding:80px 48px;border-top:1px solid #f0f0f0}
+.s-head{margin-bottom:40px}
+.s-h2{font-family:'Playfair Display',serif;font-size:clamp(1.8rem,3vw,2.8rem);font-weight:400;letter-spacing:-.01em;margin-bottom:8px}
+.s-h2 em{font-style:italic;color:#888}
+.s-sub{font-size:.86rem;color:#888;font-weight:300}
+.s-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:#f0f0f0}
+.s-item{padding:32px 28px;background:#fff;transition:background .2s}
+.s-item:hover{background:#fafafa}
+.si-num{font-family:'Playfair Display',serif;font-style:italic;font-size:1.4rem;color:#ddd;margin-bottom:14px;display:block}
+.si-name{font-size:.95rem;font-weight:600;margin-bottom:6px}
+.si-desc{font-size:.8rem;color:#888;line-height:1.7;font-weight:300;margin-bottom:14px}
+.si-price{font-size:.78rem;font-weight:600;color:#111;border-top:1px solid #f0f0f0;padding-top:12px;margin-top:auto}
+.si-del{font-size:.68rem;color:#aaa;font-weight:400;display:block;margin-top:2px}
+
+/* BOOKING */
+.booking{padding:80px 48px;background:#fafafa;border-top:1px solid #f0f0f0;display:grid;grid-template-columns:1fr 1fr;gap:80px}
+.bk-tag{font-size:.65rem;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:#aaa;margin-bottom:16px}
+.bk-h2{font-family:'Playfair Display',serif;font-size:clamp(1.8rem,3vw,2.5rem);font-weight:400;line-height:1.15;letter-spacing:-.01em;margin-bottom:16px}
+.bk-h2 em{font-style:italic;color:#888}
+.bk-p{font-size:.86rem;color:#888;line-height:1.85;font-weight:300;margin-bottom:28px}
+.bk-contact{display:flex;flex-direction:column;gap:10px}
+.bk-c{display:flex;gap:12px;align-items:center;font-size:.84rem;color:#666}
+.bk-c strong{color:#111;font-weight:600;min-width:70px}
+.bk-form{background:#fff;border:1px solid #f0f0f0;padding:36px}
+.bk-form-title{font-family:'Playfair Display',serif;font-style:italic;font-size:1.1rem;margin-bottom:20px}
+.bk-inputs{display:flex;flex-direction:column;gap:10px}
+.bk-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.bk-in{width:100%;background:#fafafa;border:1px solid #eee;outline:none;padding:12px 14px;font-family:'Manrope',sans-serif;font-size:.84rem;color:#111;font-weight:300;transition:border-color .2s}
+.bk-in::placeholder{color:#bbb}
+.bk-in:focus{border-color:#111;background:#fff}
+.bk-sel{width:100%;background:#fafafa;border:1px solid #eee;outline:none;padding:12px 14px;font-family:'Manrope',sans-serif;font-size:.84rem;color:#111;cursor:pointer;appearance:none}
+.bk-sub{width:100%;margin-top:4px;background:#111;color:#fff;border:none;cursor:pointer;padding:14px;font-family:'Manrope',sans-serif;font-size:.72rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;transition:background .2s}
+.bk-sub:hover{background:#333}
+
+/* TESTI */
+.testi{padding:80px 48px;border-top:1px solid #f0f0f0}
+.t-h2{font-family:'Playfair Display',serif;font-style:italic;font-size:clamp(1.8rem,3vw,2.5rem);font-weight:400;margin-bottom:40px}
+.t-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:2px;background:#f0f0f0}
+.tc{padding:32px;background:#fff}
+.tc-stars{color:#111;letter-spacing:3px;font-size:.7rem;margin-bottom:12px}
+.tc-text{font-family:'Playfair Display',serif;font-style:italic;font-size:.92rem;color:#666;line-height:1.8;margin-bottom:18px}
+.tc-name{font-size:.8rem;font-weight:600;color:#111;margin-bottom:1px}
+.tc-role{font-size:.7rem;color:#aaa;font-weight:400}
+
+/* CTA */
+.cta{padding:80px 48px;background:#111;color:#fff;display:flex;justify-content:space-between;align-items:center;gap:40px;flex-wrap:wrap}
+.ct-h2{font-family:'Playfair Display',serif;font-size:clamp(1.8rem,3vw,2.5rem);font-weight:400;font-style:italic;line-height:1.2}
+.ct-h2 em{color:#aaa;font-style:normal}
+.ct-actions{display:flex;gap:12px;flex-shrink:0}
+.btn-white{background:#fff;color:#111;font-size:.72rem;font-weight:600;letter-spacing:.06em;padding:14px 24px;text-decoration:none;transition:background .2s}
+.btn-white:hover{background:#f0f0f0}
+.btn-border-w{border:1px solid #444;color:#fff;font-size:.72rem;font-weight:500;padding:13px 22px;text-decoration:none;transition:border-color .2s}
+.btn-border-w:hover{border-color:#fff}
+
+/* FOOTER */
+footer{background:#fafafa;border-top:1px solid #f0f0f0;padding:60px 48px 32px;display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;gap:48px}
+.ft-n{font-family:'Playfair Display',serif;font-style:italic;font-size:1.2rem;margin-bottom:6px;display:block;color:#111}
+.ft-tag{font-size:.62rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:#aaa;margin-bottom:14px}
+.ft-desc{font-size:.78rem;color:#aaa;line-height:1.8;font-weight:300;max-width:220px}
+.ft-col h5{font-size:.62rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:#111;margin-bottom:16px;padding-bottom:8px;border-bottom:1px solid #f0f0f0}
+.ft-col ul{list-style:none;display:flex;flex-direction:column;gap:9px}
+.ft-col li{font-size:.78rem;color:#aaa;font-weight:300;transition:color .2s}
+.ft-col li:hover{color:#111}
+.foot-bot{background:#fff;border-top:1px solid #f0f0f0;padding:14px 48px;display:flex;justify-content:space-between;font-size:.65rem;color:#ccc;letter-spacing:.04em}
+
+/* REVEAL */
+.r{opacity:0;transform:translateY(20px);transition:opacity .7s ease,transform .7s ease}
+.r.v{opacity:1;transform:translateY(0)}
+.d1{transition-delay:.1s}.d2{transition-delay:.2s}.d3{transition-delay:.3s}
+
+@media(max-width:1024px){
+  nav{padding:0 24px}
+  .nc{display:none}
+  .hero{grid-template-columns:1fr;padding-top:64px}
+  .hero-img{height:50vh}
+  .hero-right{padding:48px 24px}
+  .gallery,.about,.services,.booking,.testi{padding:60px 24px}
+  .g-grid{grid-template-columns:1fr 1fr}
+  .g-item{aspect-ratio:1 !important;grid-row:span 1 !important;grid-column:span 1 !important}
+  .about{grid-template-columns:1fr;gap:40px}
+  .s-grid{grid-template-columns:1fr}
+  .booking{grid-template-columns:1fr;gap:40px}
+  .t-grid{grid-template-columns:1fr}
+  .cta{padding:60px 24px;flex-direction:column;align-items:flex-start}
+  footer{grid-template-columns:1fr 1fr;padding:48px 24px 28px}
+  .foot-bot{padding:12px 24px;flex-direction:column;gap:4px}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="#" class="nl">Clara Morel</a>
+  <ul class="nc">
+    <li><a href="#gallery">Portfolio</a></li>
+    <li><a href="#about">À propos</a></li>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#booking">Réserver</a></li>
+  </ul>
+  <a href="#booking" class="n-btn">Réserver une séance →</a>
+</nav>
+
+<section class="hero">
+  <div class="hero-img">
+    <div class="hero-img-pattern"></div>
+    <div class="hero-img-tag">📸 Portrait · Mariage · Corporate</div>
+  </div>
+  <div class="hero-right">
+    <div class="hr-tag">Photographe indépendante · Paris</div>
+    <h1 class="hr-h1">Capturer<br><em>l'essentiel.</em></h1>
+    <p class="hr-desc">Je photographie les moments vrais — <strong>portraits, mariages, corporate</strong> — avec une esthétique épurée et des émotions authentiques. Basée à Paris, disponible partout en France.</p>
+    <div class="hr-actions">
+      <a href="#gallery" class="btn-black">Voir le portfolio →</a>
+      <a href="#booking" class="btn-border">Réserver</a>
+    </div>
+    <div class="hr-stats">
+      <div class="hs"><div class="hs-n">340+</div><div class="hs-l">Séances réalisées</div></div>
+      <div class="hs"><div class="hs-n">48h</div><div class="hs-l">Délai de livraison</div></div>
+      <div class="hs"><div class="hs-n">98%</div><div class="hs-l">Clients satisfaits</div></div>
+      <div class="hs"><div class="hs-n">6+</div><div class="hs-l">Ans d'expérience</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="gallery" id="gallery">
+  <div class="g-head r">
+    <span class="g-title">Portfolio</span>
+    <div class="g-filters">
+      <button class="gf on" onclick="filterG(this,'tous')">Tous</button>
+      <button class="gf" onclick="filterG(this,'portrait')">Portrait</button>
+      <button class="gf" onclick="filterG(this,'mariage')">Mariage</button>
+      <button class="gf" onclick="filterG(this,'corporate')">Corporate</button>
+    </div>
+  </div>
+  <div class="g-grid" id="gGrid">
+    <div class="g-item" data-cat="portrait" style="aspect-ratio:.5;grid-row:span 2"><div class="g-vis gv1"><div class="g-pattern"></div></div><div class="g-overlay"><div class="g-info"><div class="g-cat">Portrait</div><div class="g-name">Lumière naturelle</div></div></div></div>
+    <div class="g-item" data-cat="mariage"><div class="g-vis gv2"></div><div class="g-overlay"><div class="g-info"><div class="g-cat">Mariage</div><div class="g-name">Château de Chantilly</div></div></div></div>
+    <div class="g-item" data-cat="corporate"><div class="g-vis gv3"></div><div class="g-overlay"><div class="g-info"><div class="g-cat">Corporate</div><div class="g-name">Portraits équipe</div></div></div></div>
+    <div class="g-item" data-cat="portrait"><div class="g-vis gv4"></div><div class="g-overlay"><div class="g-info"><div class="g-cat">Portrait</div><div class="g-name">Studio noir & blanc</div></div></div></div>
+    <div class="g-item" data-cat="mariage" style="grid-column:span 2;aspect-ratio:2"><div class="g-vis gv5"></div><div class="g-overlay"><div class="g-info"><div class="g-cat">Mariage</div><div class="g-name">Elopement Provence</div></div></div></div>
+    <div class="g-item" data-cat="corporate"><div class="g-vis gv6"></div><div class="g-overlay"><div class="g-info"><div class="g-cat">Corporate</div><div class="g-name">Événement Paris</div></div></div></div>
+  </div>
+</section>
+
+<section class="about" id="about">
+  <div class="r">
+    <div class="ab-tag">À propos</div>
+    <h2 class="ab-h2">Voir. Ressentir.<br><em>Capturer.</em></h2>
+    <p class="ab-p">Avant d'être photographe, j'ai été <strong>observatrice</strong>. Celle qui remarque la lumière qui change à 17h, le sourire entre deux poses.</p>
+    <p class="ab-p">Depuis 2019, je travaille avec des particuliers et entreprises qui veulent des images qui leur <strong>ressemblent vraiment.</strong></p>
+    <div class="ab-quote">
+      <div class="ab-q-text">« Une belle photo, c'est celle qui dans 20 ans vous fait encore ressentir quelque chose. »</div>
+      <div class="ab-q-name">— Clara Morel</div>
+    </div>
+  </div>
+  <div class="ab-right r d2">
+    <div class="ab-item"><span class="ab-item-label">Formation</span><span class="ab-item-val">École nationale · Arles</span></div>
+    <div class="ab-item"><span class="ab-item-label">Matériel</span><span class="ab-item-val">Sony A7 IV · Leica Q2</span></div>
+    <div class="ab-item"><span class="ab-item-label">Retouches</span><span class="ab-item-val">Incluses · Lightroom pro</span></div>
+    <div class="ab-item"><span class="ab-item-label">Livraison</span><span class="ab-item-val">Galerie privée · 48h</span></div>
+    <div class="ab-item"><span class="ab-item-label">Zones</span><span class="ab-item-val">Paris · IDF · France</span></div>
+    <div class="ab-item"><span class="ab-item-label">Langues</span><span class="ab-item-val">FR · EN · IT</span></div>
+  </div>
+</section>
+
+<section class="services" id="services">
+  <div class="s-head r">
+    <h2 class="s-h2">Ce que je <em>propose.</em></h2>
+    <p class="s-sub">Chaque séance est unique et personnalisée.</p>
+  </div>
+  <div class="s-grid">
+    <div class="s-item r d1">
+      <span class="si-num">01</span>
+      <div class="si-name">Portrait personnel</div>
+      <div class="si-desc">Séance individuelle ou en couple, studio ou extérieur. Pour LinkedIn, réseaux, ou simplement pour vous souvenir.</div>
+      <div class="si-price">À partir de 280€<span class="si-del">2h · 40 photos retouchées · Galerie privée</span></div>
+    </div>
+    <div class="s-item r d2">
+      <span class="si-num">02</span>
+      <div class="si-name">Mariage & événements</div>
+      <div class="si-desc">Reportage complet de votre journée. Du matin au dernier slow. Je capture les vraies émotions.</div>
+      <div class="si-price">À partir de 1 800€<span class="si-del">Journée complète · Galerie illimitée</span></div>
+    </div>
+    <div class="s-item r d3">
+      <span class="si-num">03</span>
+      <div class="si-name">Corporate & entreprise</div>
+      <div class="si-desc">Portraits dirigeants, photos d'équipe, événements. Des images professionnelles adaptées à votre culture.</div>
+      <div class="si-price">Sur devis<span class="si-del">Demi-journée ou journée complète</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="booking" id="booking">
+  <div class="r">
+    <div class="bk-tag">Réservations</div>
+    <h2 class="bk-h2">Parlons de<br><em>votre projet.</em></h2>
+    <p class="bk-p">Décrivez-moi ce que vous cherchez — je vous propose un devis personnalisé sous 24h.</p>
+    <div class="bk-contact">
+      <div class="bk-c"><strong>Email</strong>clara@morel-photo.fr</div>
+      <div class="bk-c"><strong>Studio</strong>Paris 11e · Sur RDV</div>
+      <div class="bk-c"><strong>Délai</strong>Réponse sous 24h</div>
+      <div class="bk-c"><strong>Zones</strong>Paris · IDF · France entière</div>
+    </div>
+  </div>
+  <div class="bk-form r d2">
+    <div class="bk-form-title">Votre projet</div>
+    <div class="bk-inputs">
+      <div class="bk-row">
+        <input type="text" class="bk-in" placeholder="Prénom">
+        <input type="text" class="bk-in" placeholder="Nom">
+      </div>
+      <input type="email" class="bk-in" placeholder="Email">
+      <select class="bk-sel"><option>Type de séance</option><option>Portrait personnel</option><option>Mariage</option><option>Corporate</option><option>Événement</option></select>
+      <textarea class="bk-in" rows="3" placeholder="Décrivez votre projet..." style="resize:none"></textarea>
+      <button class="bk-sub" onclick="alert('Demande envoyée — réponse sous 24h !')">Envoyer ma demande →</button>
+    </div>
+  </div>
+</section>
+
+<section class="testi r">
+  <h2 class="t-h2">Ils témoignent.</h2>
+  <div class="t-grid">
+    <div class="tc"><div class="tc-stars">★★★★★</div><p class="tc-text">Léa a capturé des moments que même nous n'avions pas vus. Discrète, professionnelle, le résultat nous a fait pleurer — de bonheur.</p><div class="tc-name">Marie & Thomas V.</div><div class="tc-role">Mariage · Château de Chantilly</div></div>
+    <div class="tc"><div class="tc-stars">★★★★★</div><p class="tc-text">Pour nos portraits d'équipe, elle a su mettre tout le monde à l'aise. Naturel, dynamique, parfaitement adapté à notre image.</p><div class="tc-name">Alexandre D.</div><div class="tc-role">DRH · Startup tech Paris</div></div>
+    <div class="tc"><div class="tc-stars">★★★★★</div><p class="tc-text">Timide devant l'objectif, elle a été patiente et bienveillante. 48h après, ma galerie privée était prête. Qualité bluffante.</p><div class="tc-name">Sophie L.</div><div class="tc-role">Portrait · Paris 7e</div></div>
+    <div class="tc"><div class="tc-stars">★★★★★</div><p class="tc-text">Délai tenu, photos superbes, suivi parfait. Je recommande à toute mon équipe pour leurs portraits LinkedIn.</p><div class="tc-name">Pierre M.</div><div class="tc-role">Directeur · Cabinet d'avocats</div></div>
+  </div>
+</section>
+
+<div class="cta r">
+  <h2 class="ct-h2">Votre prochain souvenir<br><em>vous attend.</em></h2>
+  <div class="ct-actions">
+    <a href="#booking" class="btn-white">Réserver une séance →</a>
+    <a href="mailto:clara@morel-photo.fr" class="btn-border-w">Envoyer un email</a>
+  </div>
+</div>
+
+<footer>
+  <div>
+    <span class="ft-n">Clara Morel</span>
+    <div class="ft-tag">Photographe · Paris</div>
+    <p class="ft-desc">Portrait, mariage, corporate. Des images qui durent, avec une esthétique épurée.</p>
+  </div>
+  <div class="ft-col"><h5>Services</h5><ul><li>Portrait personnel</li><li>Mariage</li><li>Corporate</li><li>Événements</li></ul></div>
+  <div class="ft-col"><h5>Portfolio</h5><ul><li>Portraits</li><li>Mariages</li><li>Corporate</li><li>Architecture</li></ul></div>
+  <div class="ft-col"><h5>Contact</h5><ul><li>Paris, France</li><li>clara@morel-photo.fr</li><li>Studio Paris 11e</li><li>Réponse sous 24h</li></ul></div>
+</footer>
+<div class="foot-bot">
+  <span>© 2025 Clara Morel Photographie · Paris</span>
+  <span>Chaque image raconte une histoire.</span>
+</div>
+
+<script>
+function filterG(btn,cat){
+  document.querySelectorAll('.gf').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');
+  document.querySelectorAll('.g-item').forEach(item=>{
+    const show=cat==='tous'||item.dataset.cat===cat;
+    item.style.opacity=show?'1':'.1';
+    item.style.transition='opacity .4s';
+  });
+}
+const obs=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('v');obs.unobserve(e.target);}}),{threshold:.1});
+document.querySelectorAll('.r').forEach(el=>obs.observe(el));
+</script>
+</body>
+</html>

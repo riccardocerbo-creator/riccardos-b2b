@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dupont Électricité — Électricien Paris</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',sans-serif;background:#fff;color:#111;overflow-x:hidden}
+
+/* NAV — white, clean, sticky */
+nav{position:sticky;top:0;z-index:100;background:#fff;border-bottom:2px solid #111;padding:0 40px;height:64px;display:flex;align-items:center;justify-content:space-between}
+.n-logo{font-size:1.1rem;font-weight:800;letter-spacing:-.02em;color:#111;text-decoration:none;display:flex;align-items:center;gap:10px}
+.n-logo-icon{width:32px;height:32px;background:#f5c400;display:flex;align-items:center;justify-content:center;font-size:1rem}
+.n-links{display:flex;gap:0;list-style:none}
+.n-links a{font-size:.78rem;font-weight:600;letter-spacing:.02em;color:#111;text-decoration:none;padding:0 18px;height:64px;display:flex;align-items:center;border-left:1px solid #eee;transition:background .2s}
+.n-links a:hover{background:#f5f5f5}
+.n-call{background:#f5c400;color:#111;font-size:.78rem;font-weight:800;padding:0 20px;height:40px;display:flex;align-items:center;text-decoration:none;transition:background .2s}
+.n-call:hover{background:#e6b800}
+
+/* HERO — bold, direct, yellow accent */
+.hero{background:#111;color:#fff;padding:0;display:grid;grid-template-columns:1fr 400px;min-height:calc(100vh - 64px)}
+.hero-left{padding:80px 60px;display:flex;flex-direction:column;justify-content:space-between}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;background:#f5c400;color:#111;font-size:.7rem;font-weight:700;padding:6px 14px;letter-spacing:.06em;text-transform:uppercase;width:fit-content;margin-bottom:32px}
+.hero-badge::before{content:'●';font-size:.5rem}
+.hero-h1{font-size:clamp(3.5rem,6vw,6.5rem);font-weight:900;line-height:.95;letter-spacing:-.03em;margin-bottom:32px}
+.hero-h1 span{color:#f5c400;display:block}
+.hero-desc{font-size:1rem;font-weight:400;color:#aaa;line-height:1.7;max-width:480px;margin-bottom:40px}
+.hero-desc strong{color:#fff}
+.hero-actions{display:flex;gap:12px;flex-wrap:wrap}
+.btn-yellow{background:#f5c400;color:#111;font-size:.82rem;font-weight:800;padding:16px 28px;text-decoration:none;display:inline-flex;align-items:center;gap:8px;transition:background .2s,transform .2s}
+.btn-yellow:hover{background:#e6b800;transform:translateY(-2px)}
+.btn-outline-w{border:2px solid #444;color:#fff;font-size:.82rem;font-weight:600;padding:14px 24px;text-decoration:none;transition:border-color .2s,color .2s}
+.btn-outline-w:hover{border-color:#fff}
+/* hero stats bottom */
+.hero-stats{display:flex;gap:0;border-top:1px solid #333;padding-top:32px;margin-top:auto}
+.hs{padding:0 32px 0 0;border-right:1px solid #333;margin-right:32px}
+.hs:last-child{border:none}
+.hs-n{font-size:2rem;font-weight:900;color:#f5c400;line-height:1}
+.hs-l{font-size:.7rem;color:#777;margin-top:3px;font-weight:500}
+
+/* Hero right — contact card */
+.hero-right{background:#f5c400;padding:60px 40px;display:flex;flex-direction:column;justify-content:center}
+.hrc-title{font-size:1.1rem;font-weight:800;color:#111;margin-bottom:8px}
+.hrc-sub{font-size:.82rem;color:#555;margin-bottom:32px}
+.hrc-divider{height:2px;background:#111;margin-bottom:32px}
+.hrc-info{display:flex;flex-direction:column;gap:16px;margin-bottom:32px}
+.hrc-item{display:flex;align-items:center;gap:14px}
+.hrc-ico{width:36px;height:36px;background:#111;color:#f5c400;display:flex;align-items:center;justify-content:center;font-size:.9rem;flex-shrink:0}
+.hrc-text{font-size:.85rem;font-weight:600;color:#111}
+.hrc-text span{display:block;font-weight:400;color:#555;font-size:.78rem}
+.btn-black{background:#111;color:#f5c400;font-size:.82rem;font-weight:800;padding:16px;text-align:center;text-decoration:none;display:block;transition:background .2s}
+.btn-black:hover{background:#222}
+.hrc-note{font-size:.7rem;color:#666;text-align:center;margin-top:12px}
+
+/* SERVICES — grid layout */
+.services{padding:80px 60px;background:#f9f9f9;border-top:2px solid #111}
+.s-header{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:48px}
+.s-title{font-size:clamp(2rem,3.5vw,3rem);font-weight:900;letter-spacing:-.02em;line-height:1}
+.s-title span{color:#f5c400}
+.s-all{font-size:.78rem;font-weight:700;color:#111;text-decoration:none;border-bottom:2px solid #111;padding-bottom:2px}
+.srv-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px}
+.srv{background:#fff;padding:32px 28px;border:2px solid #111;position:relative;overflow:hidden;transition:background .2s,transform .2s}
+.srv:hover{background:#f5c400;transform:translateY(-4px)}
+.srv-num{font-size:3rem;font-weight:900;color:#f0f0f0;position:absolute;top:16px;right:20px;line-height:1;transition:color .2s}
+.srv:hover .srv-num{color:rgba(0,0,0,.1)}
+.srv-ico{font-size:1.8rem;margin-bottom:16px;display:block}
+.srv-name{font-size:1rem;font-weight:800;margin-bottom:8px}
+.srv-desc{font-size:.82rem;color:#666;line-height:1.6;font-weight:400}
+.srv:hover .srv-desc{color:#444}
+
+/* WHY US — alternating */
+.why{padding:80px 60px;background:#fff;border-top:2px solid #111}
+.why-title{font-size:clamp(2rem,3.5vw,3rem);font-weight:900;letter-spacing:-.02em;margin-bottom:48px}
+.why-title span{color:#f5c400}
+.why-items{display:grid;grid-template-columns:1fr 1fr;gap:2px}
+.why-item{padding:32px;border:2px solid #111;display:flex;gap:20px;align-items:flex-start;transition:background .2s}
+.why-item:hover{background:#f5c400}
+.wi-num{font-size:2rem;font-weight:900;color:#f5c400;flex-shrink:0;line-height:1;transition:color .2s}
+.why-item:hover .wi-num{color:#111}
+.wi-title{font-size:.95rem;font-weight:800;margin-bottom:6px}
+.wi-desc{font-size:.82rem;color:#666;line-height:1.6;transition:color .2s}
+.why-item:hover .wi-desc{color:#333}
+
+/* ZONES */
+.zones{padding:60px;background:#111;color:#fff;border-top:2px solid #f5c400}
+.zones-inner{display:flex;justify-content:space-between;align-items:center;gap:40px;flex-wrap:wrap}
+.zones-title{font-size:clamp(1.5rem,3vw,2.5rem);font-weight:900;letter-spacing:-.02em}
+.zones-title span{color:#f5c400}
+.zones-list{display:flex;gap:12px;flex-wrap:wrap}
+.zone-tag{background:#222;color:#fff;font-size:.72rem;font-weight:600;padding:8px 14px;border:1px solid #333}
+
+/* TESTIMONIALS */
+.testi{padding:80px 60px;background:#f9f9f9;border-top:2px solid #111}
+.t-title{font-size:clamp(2rem,3.5vw,3rem);font-weight:900;letter-spacing:-.02em;margin-bottom:48px}
+.t-title span{color:#f5c400}
+.t-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px}
+.tc{padding:28px;background:#fff;border:2px solid #111}
+.tc-stars{color:#f5c400;font-size:.85rem;letter-spacing:2px;margin-bottom:12px}
+.tc-text{font-size:.85rem;color:#444;line-height:1.7;margin-bottom:20px;font-style:italic}
+.tc-auth{display:flex;align-items:center;gap:12px}
+.tc-av{width:36px;height:36px;background:#111;color:#f5c400;font-weight:900;display:flex;align-items:center;justify-content:center;font-size:.9rem}
+.tc-name{font-weight:700;font-size:.85rem}
+.tc-role{font-size:.72rem;color:#888}
+
+/* CTA BANNER */
+.cta-banner{background:#f5c400;padding:60px;border-top:2px solid #111;display:flex;justify-content:space-between;align-items:center;gap:40px;flex-wrap:wrap}
+.cb-text h2{font-size:clamp(1.8rem,3vw,2.5rem);font-weight:900;letter-spacing:-.02em;line-height:1.1;margin-bottom:8px}
+.cb-text p{font-size:.9rem;color:#555}
+.cb-actions{display:flex;gap:12px;align-items:center;flex-shrink:0}
+
+/* FOOTER */
+footer{background:#111;color:#fff;padding:60px;display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;gap:48px;border-top:4px solid #f5c400}
+.ft-logo-wrap{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.ft-logo-icon{width:32px;height:32px;background:#f5c400;display:flex;align-items:center;justify-content:center}
+.ft-logo-name{font-size:1rem;font-weight:900}
+.ft-desc{font-size:.8rem;color:#888;line-height:1.8}
+.ft-col h5{font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#f5c400;margin-bottom:16px;padding-bottom:8px;border-bottom:1px solid #333}
+.ft-col ul{list-style:none;display:flex;flex-direction:column;gap:9px}
+.ft-col li{font-size:.82rem;color:#888;transition:color .2s}
+.ft-col li:hover{color:#fff}
+.foot-bot{background:#000;padding:16px 60px;display:flex;justify-content:space-between;font-size:.72rem;color:#555}
+
+@media(max-width:900px){
+  nav{padding:0 20px}
+  .n-links{display:none}
+  .hero{grid-template-columns:1fr}
+  .hero-left{padding:48px 24px}
+  .hero-right{padding:40px 24px}
+  .services,.why,.testi{padding:60px 24px}
+  .srv-grid,.why-items,.t-grid{grid-template-columns:1fr}
+  .zones{padding:40px 24px}
+  .cta-banner{padding:40px 24px;flex-direction:column}
+  footer{grid-template-columns:1fr 1fr;padding:48px 24px 32px}
+  .foot-bot{padding:12px 24px;flex-direction:column;gap:4px}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="#" class="n-logo">
+    <div class="n-logo-icon">⚡</div>
+    Dupont Électricité
+  </a>
+  <ul class="n-links">
+    <li><a href="#services">Services</a></li>
+    <li><a href="#why">Garanties</a></li>
+    <li><a href="#testi">Avis clients</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <a href="tel:+33600000000" class="n-call">📞 Appeler maintenant</a>
+</nav>
+
+<section class="hero">
+  <div class="hero-left">
+    <div>
+      <div class="hero-badge">Disponible 7j/7 · Intervention 24h</div>
+      <h1 class="hero-h1">Électricien<br><span>certifié.</span><br>Paris.</h1>
+      <p class="hero-desc">Installation, dépannage, mise aux normes. <strong>Intervention rapide, prix transparent, travail garanti.</strong> Certifié RGE, basé en Île-de-France.</p>
+      <div class="hero-actions">
+        <a href="#contact" class="btn-yellow">Devis gratuit →</a>
+        <a href="#services" class="btn-outline-w">Nos services</a>
+      </div>
+    </div>
+    <div class="hero-stats">
+      <div class="hs"><div class="hs-n">1 200+</div><div class="hs-l">Interventions réalisées</div></div>
+      <div class="hs"><div class="hs-n">98%</div><div class="hs-l">Clients satisfaits</div></div>
+      <div class="hs"><div class="hs-n">24h</div><div class="hs-l">Délai d'intervention</div></div>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="hrc-title">Besoin d'un électricien ?</div>
+    <div class="hrc-sub">Réponse garantie sous 1h</div>
+    <div class="hrc-divider"></div>
+    <div class="hrc-info">
+      <div class="hrc-item"><div class="hrc-ico">📞</div><div class="hrc-text">06 00 00 00 00<span>Disponible 7j/7, 8h–20h</span></div></div>
+      <div class="hrc-item"><div class="hrc-ico">✉️</div><div class="hrc-text">contact@dupont-elec.fr<span>Réponse sous 1h</span></div></div>
+      <div class="hrc-item"><div class="hrc-ico">📍</div><div class="hrc-text">Île-de-France<span>Tous arrondissements Paris</span></div></div>
+      <div class="hrc-item"><div class="hrc-ico">🏅</div><div class="hrc-text">Certifié RGE<span>Éligible aides MaPrimeRénov'</span></div></div>
+    </div>
+    <a href="#contact" class="btn-black">Demander un devis gratuit</a>
+    <div class="hrc-note">Sans engagement · Réponse sous 1h</div>
+  </div>
+</section>
+
+<section class="services" id="services">
+  <div class="s-header">
+    <div class="s-title">Nos <span>services.</span></div>
+    <a href="#contact" class="s-all">Devis gratuit →</a>
+  </div>
+  <div class="srv-grid">
+    <div class="srv"><div class="srv-num">01</div><span class="srv-ico">⚡</span><div class="srv-name">Installation électrique</div><div class="srv-desc">Mise en place complète pour constructions neuves ou rénovations. Câblage, tableau, prises, éclairage.</div></div>
+    <div class="srv"><div class="srv-num">02</div><span class="srv-ico">🔧</span><div class="srv-name">Dépannage urgent</div><div class="srv-desc">Panne, court-circuit, disjoncteur. Intervention rapide 7j/7. Nous intervenons le jour même.</div></div>
+    <div class="srv"><div class="srv-num">03</div><span class="srv-ico">📋</span><div class="srv-name">Mise aux normes</div><div class="srv-desc">Diagnostic et mise en conformité. Attestation Consuel pour vente ou location. Éligible aides État.</div></div>
+    <div class="srv"><div class="srv-num">04</div><span class="srv-ico">💡</span><div class="srv-name">Éclairage & LED</div><div class="srv-desc">Installation spots, dalles LED, éclairage extérieur. Économies d'énergie jusqu'à -70%.</div></div>
+    <div class="srv"><div class="srv-num">05</div><span class="srv-ico">🔌</span><div class="srv-name">Tableau électrique</div><div class="srv-desc">Remplacement ou mise à niveau. Disjoncteurs, différentiels, protection optimale de votre installation.</div></div>
+    <div class="srv"><div class="srv-num">06</div><span class="srv-ico">🚗</span><div class="srv-name">Borne de recharge</div><div class="srv-desc">Installation IRVE pour véhicules électriques. Certifié IRVE. Éligible crédit d'impôt ADVENIR.</div></div>
+  </div>
+</section>
+
+<section class="why" id="why">
+  <div class="why-title">Pourquoi nous <span>choisir.</span></div>
+  <div class="why-items">
+    <div class="why-item"><div class="wi-num">01</div><div><div class="wi-title">Devis gratuit en 2h</div><div class="wi-desc">Pas de surprise. Prix fixe avant démarrage, signé par écrit. Zéro facturation cachée.</div></div></div>
+    <div class="why-item"><div class="wi-num">02</div><div><div class="wi-title">Certifié RGE</div><div class="wi-desc">Reconnu Garant de l'Environnement. Éligible aux aides MaPrimeRénov' et certificats d'économie d'énergie.</div></div></div>
+    <div class="why-item"><div class="wi-num">03</div><div><div class="wi-title">Garantie décennale</div><div class="wi-desc">Toutes nos installations sont couvertes par une garantie décennale. Vous êtes protégé sur 10 ans.</div></div></div>
+    <div class="why-item"><div class="wi-num">04</div><div><div class="wi-title">Ponctualité garantie</div><div class="wi-desc">On vous prévient si un imprévu survient. Toujours. Parce que votre temps compte autant que le nôtre.</div></div></div>
+  </div>
+</section>
+
+<div class="zones">
+  <div class="zones-inner">
+    <div class="zones-title">Zones d'<span>intervention.</span></div>
+    <div class="zones-list">
+      <span class="zone-tag">Paris — tous arrondissements</span>
+      <span class="zone-tag">Boulogne-Billancourt</span>
+      <span class="zone-tag">Versailles</span>
+      <span class="zone-tag">Vincennes</span>
+      <span class="zone-tag">Saint-Denis</span>
+      <span class="zone-tag">Montreuil</span>
+      <span class="zone-tag">Créteil</span>
+      <span class="zone-tag">Nanterre</span>
+    </div>
+  </div>
+</div>
+
+<section class="testi" id="testi">
+  <div class="t-title">Ce que disent <span>nos clients.</span></div>
+  <div class="t-grid">
+    <div class="tc"><div class="tc-stars">★★★★★</div><p class="tc-text">Intervention rapide un samedi soir pour une panne. Professionnel, propre, prix honnête. Je recommande sans hésiter.</p><div class="tc-auth"><div class="tc-av">M</div><div><div class="tc-name">Marie L.</div><div class="tc-role">Particulier · Paris 15e</div></div></div></div>
+    <div class="tc"><div class="tc-stars">★★★★★</div><p class="tc-text">Mise aux normes complète avant vente. Attestation Consuel obtenue du premier coup. Délais parfaitement respectés.</p><div class="tc-auth"><div class="tc-av">T</div><div><div class="tc-name">Thomas M.</div><div class="tc-role">Propriétaire · Boulogne</div></div></div></div>
+    <div class="tc"><div class="tc-stars">★★★★★</div><p class="tc-text">Installation de 3 bornes de recharge dans notre parking. Sérieux, compétent, a géré tous les dossiers d'aides. Parfait.</p><div class="tc-auth"><div class="tc-av">S</div><div><div class="tc-name">Sophie C.</div><div class="tc-role">Syndic · Versailles</div></div></div></div>
+  </div>
+</section>
+
+<div class="cta-banner" id="contact">
+  <div class="cb-text">
+    <h2>Besoin d'un électricien maintenant ?</h2>
+    <p>Devis gratuit sous 1h · Intervention sous 24h · 7j/7</p>
+  </div>
+  <div class="cb-actions">
+    <a href="tel:+33600000000" class="btn-yellow">📞 06 00 00 00 00</a>
+    <a href="mailto:contact@dupont-elec.fr" class="btn-outline-w">Envoyer un email</a>
+  </div>
+</div>
+
+<footer>
+  <div>
+    <div class="ft-logo-wrap"><div class="ft-logo-icon">⚡</div><span class="ft-logo-name">Dupont Électricité</span></div>
+    <p class="ft-desc">Électricien certifié RGE en Île-de-France. Interventions rapides, travail soigné, prix transparents depuis 2008.</p>
+  </div>
+  <div class="ft-col"><h5>Services</h5><ul><li>Installation électrique</li><li>Dépannage urgent</li><li>Mise aux normes</li><li>Tableau électrique</li><li>Borne de recharge</li></ul></div>
+  <div class="ft-col"><h5>Certifications</h5><ul><li>✓ Certifié RGE</li><li>✓ Garantie décennale</li><li>✓ Attestation Consuel</li><li>✓ Certifié IRVE</li></ul></div>
+  <div class="ft-col"><h5>Contact</h5><ul><li>📞 06 00 00 00 00</li><li>✉️ contact@dupont-elec.fr</li><li>📍 Île-de-France</li><li>⏰ 7j/7 · 8h–20h</li></ul></div>
+</footer>
+<div class="foot-bot">
+  <span>© 2025 Dupont Électricité — SIRET 000 000 000 00000</span>
+  <span>Certifié RGE · Garantie décennale</span>
+</div>
+
+</body>
+</html>

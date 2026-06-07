@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Maison Céleste — Restaurant Gastronomique · Paris</title>
+<link href="https://fonts.googleapis.com/css2?family=Didact+Gothic&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;font-size:16px}
+body{font-family:'EB Garamond',Georgia,serif;background:#f5f0e8;color:#1a1408;overflow-x:hidden}
+
+/* ══ COLOUR PALETTE ══ */
+/* --cream: #f5f0e8  --dark: #1a1408  --gold: #8c6d2f  --mid: #c4a96a  --light: #e8dfc8 */
+
+/* PROGRESS BAR scrolling */
+#progress{position:fixed;top:0;left:0;height:2px;background:#8c6d2f;z-index:999;width:0;transition:width .1s}
+
+/* NAV — centred, elegant */
+nav{position:fixed;top:0;left:0;right:0;z-index:800;padding:0;background:rgba(245,240,232,0);transition:background .6s,border-color .6s;border-bottom:1px solid transparent}
+nav.solid{background:rgba(245,240,232,.97);border-color:rgba(140,109,47,.2)}
+.nav-inner{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;height:72px;padding:0 60px}
+.nav-left{display:flex;gap:36px;list-style:none}
+.nav-left a,.nav-right a{font-family:'Didact Gothic',sans-serif;font-size:.65rem;letter-spacing:.2em;text-transform:uppercase;color:#8c6d2f;text-decoration:none;transition:color .3s}
+.nav-left a:hover,.nav-right a:hover{color:#1a1408}
+.nav-center{text-align:center}
+.nav-logo{font-family:'Cormorant Garamond',Georgia,serif;font-size:1.3rem;font-weight:300;letter-spacing:.12em;color:#1a1408;text-decoration:none;display:block;line-height:1}
+.nav-logo em{font-style:italic;color:#8c6d2f}
+.nav-logo-sub{font-family:'Didact Gothic',sans-serif;font-size:.52rem;letter-spacing:.25em;text-transform:uppercase;color:#c4a96a;margin-top:2px;display:block}
+.nav-right{display:flex;gap:36px;list-style:none;justify-content:flex-end;align-items:center}
+.nav-reserve{background:#1a1408;color:#f5f0e8 !important;padding:8px 18px;font-family:'Didact Gothic',sans-serif;font-size:.6rem;letter-spacing:.16em;text-transform:uppercase;transition:background .3s !important}
+.nav-reserve:hover{background:#8c6d2f !important;color:#f5f0e8 !important}
+.hbg{background:none;border:none;cursor:pointer;display:flex;flex-direction:column;gap:4px;padding:4px}
+.hbg span{display:block;width:20px;height:1px;background:#1a1408;transition:all .4s;transform-origin:center}
+.hbg.open span:nth-child(1){transform:translateY(5px) rotate(45deg)}
+.hbg.open span:nth-child(2){opacity:0}
+.hbg.open span:nth-child(3){transform:translateY(-5px) rotate(-45deg)}
+
+/* MENU OVERLAY */
+.mov{position:fixed;inset:0;background:#1a1408;z-index:700;display:flex;align-items:center;justify-content:center;opacity:0;visibility:hidden;transition:opacity .5s,visibility .5s}
+.mov.open{opacity:1;visibility:visible}
+.mov-inner{text-align:center}
+.mov-links{display:flex;flex-direction:column;gap:4px}
+.mov-links a{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:clamp(2.5rem,5vw,5rem);font-weight:300;letter-spacing:.04em;color:#f5f0e8;text-decoration:none;line-height:1.2;transition:color .3s}
+.mov-links a:hover{color:#c4a96a}
+.mov-divider{width:60px;height:1px;background:#8c6d2f;margin:28px auto}
+.mov-info{font-family:'Didact Gothic',sans-serif;font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:#8c6d2f}
+
+/* ══ HERO — magazine full-bleed with typography ══ */
+.hero{height:100vh;display:flex;flex-direction:column;justify-content:flex-end;position:relative;overflow:hidden;padding-bottom:0}
+/* Textured background */
+.hero-bg{position:absolute;inset:0;background:linear-gradient(160deg,#1a1408 0%,#2a1e08 35%,#1a1008 70%,#0d0a04 100%);z-index:0}
+/* Decorative elements */
+.hero-circle{position:absolute;width:60vw;height:60vw;border-radius:50%;border:1px solid rgba(196,169,106,.08);top:50%;left:50%;transform:translate(-50%,-50%);z-index:1}
+.hero-circle2{position:absolute;width:40vw;height:40vw;border-radius:50%;border:1px solid rgba(196,169,106,.06);top:50%;left:50%;transform:translate(-50%,-50%);z-index:1}
+.hero-lines-v{position:absolute;top:0;bottom:0;left:20%;width:1px;background:linear-gradient(180deg,transparent,rgba(196,169,106,.12),transparent);z-index:1}
+.hero-lines-v2{position:absolute;top:0;bottom:0;right:20%;width:1px;background:linear-gradient(180deg,transparent,rgba(196,169,106,.12),transparent);z-index:1}
+
+.hero-content{position:relative;z-index:2;padding:0 60px 80px;text-align:center;display:flex;flex-direction:column;align-items:center}
+.hero-eyebrow{font-family:'Didact Gothic',sans-serif;font-size:.6rem;letter-spacing:.3em;text-transform:uppercase;color:#c4a96a;margin-bottom:28px;display:flex;align-items:center;gap:20px}
+.hero-eyebrow::before,.hero-eyebrow::after{content:'';width:50px;height:1px;background:rgba(196,169,106,.4)}
+.hero-h1{font-family:'Cormorant Garamond',serif;font-size:clamp(5rem,10vw,11rem);font-weight:300;letter-spacing:.06em;line-height:.9;color:#f5f0e8;margin-bottom:12px}
+.hero-h1 em{font-style:italic;color:#c4a96a;display:block}
+.hero-subtitle{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:clamp(1rem,2vw,1.4rem);font-weight:300;color:rgba(245,240,232,.5);letter-spacing:.1em;margin-bottom:40px}
+.hero-actions{display:flex;gap:20px;align-items:center}
+.btn-gold-border{display:inline-flex;align-items:center;gap:10px;border:1px solid #8c6d2f;color:#c4a96a;font-family:'Didact Gothic',sans-serif;font-size:.62rem;letter-spacing:.18em;text-transform:uppercase;padding:14px 28px;text-decoration:none;transition:all .4s}
+.btn-gold-border:hover{background:#8c6d2f;color:#f5f0e8}
+.btn-cream-fill{display:inline-flex;align-items:center;gap:10px;background:#f5f0e8;color:#1a1408;font-family:'Didact Gothic',sans-serif;font-size:.62rem;letter-spacing:.18em;text-transform:uppercase;padding:14px 28px;text-decoration:none;transition:background .3s}
+.btn-cream-fill:hover{background:#e8dfc8}
+
+/* Bottom info bar */
+.hero-bar{background:#f5f0e8;border-top:1px solid rgba(140,109,47,.2);position:relative;z-index:2;display:flex;justify-content:space-between;align-items:center;padding:20px 60px;gap:20px;flex-wrap:wrap}
+.hbar-item{display:flex;align-items:center;gap:12px}
+.hbar-icon{color:#8c6d2f;font-size:.9rem}
+.hbar-text{font-family:'Didact Gothic',sans-serif;font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:#8c6d2f}
+.hbar-text span{display:block;color:#1a1408;font-size:.7rem;margin-top:1px}
+.hbar-divider{width:1px;height:32px;background:rgba(140,109,47,.2)}
+
+/* ══ STORY ══ */
+.story{padding:0;display:grid;grid-template-columns:1fr 1fr;min-height:80vh}
+.story-left{background:#1a1408;padding:100px 70px;display:flex;flex-direction:column;justify-content:center}
+.st-eyebrow{font-family:'Didact Gothic',sans-serif;font-size:.58rem;letter-spacing:.22em;text-transform:uppercase;color:#8c6d2f;margin-bottom:24px}
+.st-h2{font-family:'Cormorant Garamond',serif;font-size:clamp(2.5rem,4vw,4.5rem);font-weight:300;font-style:italic;line-height:1.1;color:#f5f0e8;margin-bottom:24px;letter-spacing:.02em}
+.st-h2 em{color:#c4a96a;font-style:normal;display:block}
+.st-p{font-size:.95rem;color:rgba(245,240,232,.55);line-height:2;margin-bottom:16px;font-weight:300}
+.st-p strong{color:rgba(245,240,232,.85)}
+.st-quote{margin-top:32px;border-left:2px solid #8c6d2f;padding-left:24px}
+.st-quote-text{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1.1rem;color:rgba(245,240,232,.7);line-height:1.7}
+.st-quote-name{margin-top:10px;font-family:'Didact Gothic',sans-serif;font-size:.58rem;letter-spacing:.15em;text-transform:uppercase;color:#8c6d2f}
+.story-right{background:#e8dfc8;padding:100px 70px;display:flex;flex-direction:column;justify-content:center;gap:3px}
+.story-stat{padding:24px 28px;background:#f5f0e8;border-left:3px solid #8c6d2f;transition:background .3s}
+.story-stat:hover{background:#fff}
+.ss-num{font-family:'Cormorant Garamond',serif;font-size:2.8rem;font-weight:300;font-style:italic;color:#8c6d2f;line-height:1}
+.ss-label{font-family:'Didact Gothic',sans-serif;font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;color:#8c6d2f;margin-top:4px}
+.ss-desc{font-size:.82rem;color:#8c6d2f;margin-top:4px;font-style:italic}
+
+/* ══ MENU ══ */
+.menu{padding:100px 60px;background:#f5f0e8}
+.menu-header{text-align:center;margin-bottom:60px}
+.menu-pre{font-family:'Didact Gothic',sans-serif;font-size:.58rem;letter-spacing:.25em;text-transform:uppercase;color:#8c6d2f;margin-bottom:16px;display:flex;align-items:center;justify-content:center;gap:16px}
+.menu-pre::before,.menu-pre::after{content:'◆';font-size:.4rem;color:#c4a96a}
+.menu-h2{font-family:'Cormorant Garamond',serif;font-size:clamp(2rem,4vw,4rem);font-weight:300;font-style:italic;letter-spacing:.02em}
+.menu-h2 em{color:#8c6d2f;font-style:normal}
+.menu-tabs{display:flex;justify-content:center;gap:0;margin-bottom:48px;border-top:1px solid rgba(140,109,47,.2);border-bottom:1px solid rgba(140,109,47,.2)}
+.mt{font-family:'Didact Gothic',sans-serif;font-size:.6rem;letter-spacing:.18em;text-transform:uppercase;color:#c4a96a;background:none;border:none;cursor:pointer;padding:14px 28px;transition:color .3s,background .3s;border-right:1px solid rgba(140,109,47,.2)}
+.mt:first-child{border-left:1px solid rgba(140,109,47,.2)}
+.mt:hover{color:#1a1408;background:rgba(140,109,47,.05)}
+.mt.on{color:#1a1408;background:rgba(140,109,47,.08)}
+.menu-content{display:none;animation:mfade .4s ease}
+.menu-content.on{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:rgba(140,109,47,.15)}
+@keyframes mfade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+.dish{padding:36px 40px;background:#f5f0e8;transition:background .3s}
+.dish:hover{background:#f0e8d8}
+.dish-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px;gap:20px}
+.dish-name{font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-weight:400;line-height:1.2}
+.dish-name em{display:block;font-style:italic;font-size:.9rem;color:#8c6d2f;margin-top:3px}
+.dish-price{font-family:'Didact Gothic',sans-serif;font-size:.75rem;letter-spacing:.06em;color:#8c6d2f;white-space:nowrap;margin-top:4px}
+.dish-desc{font-size:.82rem;color:#8c6d2f;line-height:1.7;font-style:italic}
+.dish-allergens{margin-top:8px;font-family:'Didact Gothic',sans-serif;font-size:.55rem;letter-spacing:.08em;text-transform:uppercase;color:#c4a96a}
+
+/* ══ AMBIANCE ══ */
+.ambiance{background:#1a1408;padding:100px 60px;display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center}
+.amb-left{}
+.amb-pre{font-family:'Didact Gothic',sans-serif;font-size:.58rem;letter-spacing:.22em;text-transform:uppercase;color:#8c6d2f;margin-bottom:20px}
+.amb-h2{font-family:'Cormorant Garamond',serif;font-size:clamp(2rem,3.5vw,3.8rem);font-weight:300;font-style:italic;line-height:1.1;color:#f5f0e8;margin-bottom:20px;letter-spacing:.02em}
+.amb-h2 em{color:#c4a96a;font-style:normal;display:block}
+.amb-p{font-size:.9rem;color:rgba(245,240,232,.5);line-height:2;margin-bottom:14px}
+.amb-p strong{color:rgba(245,240,232,.8)}
+.amb-details{display:flex;flex-direction:column;gap:0;margin-top:32px}
+.amb-row{display:flex;align-items:center;gap:16px;padding:16px 0;border-bottom:1px solid rgba(255,255,255,.06)}
+.amb-row:first-child{border-top:1px solid rgba(255,255,255,.06)}
+.amb-row-ico{color:#8c6d2f;font-size:1rem;width:20px;flex-shrink:0;text-align:center}
+.amb-row-label{font-family:'Didact Gothic',sans-serif;font-size:.58rem;letter-spacing:.14em;text-transform:uppercase;color:#8c6d2f;min-width:80px}
+.amb-row-val{font-size:.82rem;color:rgba(245,240,232,.6);font-style:italic}
+/* Visual placeholder */
+.amb-right{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;gap:2px;aspect-ratio:1}
+.av{background:rgba(255,255,255,.04);border:1px solid rgba(140,109,47,.15);position:relative;overflow:hidden}
+.av::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,transparent 50%,rgba(140,109,47,.04))}
+.av:nth-child(1){grid-column:span 2}
+
+/* ══ TUNNEL DE CONVERSION ══ */
+.tunnel{padding:100px 60px;background:#1a1408}
+.tunnel-header{text-align:center;margin-bottom:60px}
+.tunnel-pre{font-family:'Didact Gothic',sans-serif;font-size:.58rem;letter-spacing:.22em;text-transform:uppercase;color:#8c6d2f;margin-bottom:14px;display:flex;align-items:center;justify-content:center;gap:14px}
+.tunnel-pre::before,.tunnel-pre::after{content:'◆';font-size:.4rem;color:#c4a96a}
+.tunnel-h2{font-family:'Cormorant Garamond',serif;font-size:clamp(2rem,3.5vw,3.5rem);font-weight:300;font-style:italic;color:#f5f0e8;letter-spacing:.02em}
+.tunnel-h2 em{color:#c4a96a;font-style:normal}
+/* Steps indicator */
+.tunnel-steps{display:flex;justify-content:center;align-items:center;gap:0;margin-bottom:60px}
+.tstep{display:flex;align-items:center;gap:0}
+.tstep-circle{width:36px;height:36px;border-radius:50%;border:1px solid #8c6d2f;display:flex;align-items:center;justify-content:center;font-family:'Didact Gothic',sans-serif;font-size:.6rem;letter-spacing:.1em;color:#8c6d2f;transition:all .3s;position:relative;z-index:1}
+.tstep.active .tstep-circle{background:#8c6d2f;color:#f5f0e8}
+.tstep.done .tstep-circle{background:#c4a96a;border-color:#c4a96a;color:#1a1408}
+.tstep-label{font-family:'Didact Gothic',sans-serif;font-size:.54rem;letter-spacing:.1em;text-transform:uppercase;color:#8c6d2f;margin-left:10px;white-space:nowrap}
+.tstep.active .tstep-label{color:#f5f0e8}
+.tstep-line{width:60px;height:1px;background:#2a1e08;margin:0 4px}
+/* Steps content */
+.tunnel-content{max-width:680px;margin:0 auto}
+.tstep-panel{display:none}
+.tstep-panel.active{display:block;animation:fadeIn .4s ease}
+.tp-title{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1.4rem;font-weight:300;color:#f5f0e8;margin-bottom:24px;letter-spacing:.04em}
+.tp-title em{color:#c4a96a;font-style:normal}
+/* Options grid */
+.tp-options{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:28px}
+.tp-option{padding:20px 24px;background:rgba(255,255,255,.04);border:1px solid rgba(140,109,47,.2);cursor:pointer;transition:all .3s;text-align:left}
+.tp-option:hover,.tp-option.selected{border-color:#8c6d2f;background:rgba(140,109,47,.08)}
+.tp-option-title{font-family:'Cormorant Garamond',serif;font-size:1rem;color:#f5f0e8;margin-bottom:4px}
+.tp-option-desc{font-size:.78rem;color:rgba(245,240,232,.4);font-style:italic}
+.tp-option-price{font-family:'Didact Gothic',sans-serif;font-size:.65rem;letter-spacing:.08em;color:#8c6d2f;margin-top:8px}
+/* Form fields */
+.tp-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px}
+.tp-full{grid-column:span 2}
+.tp-input{width:100%;background:rgba(255,255,255,.05);border:1px solid rgba(140,109,47,.25);outline:none;padding:14px 18px;font-family:'EB Garamond',serif;font-size:.9rem;color:#f5f0e8;transition:border-color .3s}
+.tp-input::placeholder{color:rgba(245,240,232,.25)}
+.tp-input:focus{border-color:#8c6d2f}
+.tp-select{width:100%;background:rgba(10,10,4,.8);border:1px solid rgba(140,109,47,.25);outline:none;padding:14px 18px;font-family:'EB Garamond',serif;font-size:.9rem;color:#f5f0e8;cursor:pointer;appearance:none}
+.tp-select option{background:#1a1408}
+/* Summary */
+.tp-summary{background:rgba(140,109,47,.06);border:1px solid rgba(140,109,47,.2);padding:28px;margin-bottom:24px}
+.ts-row{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid rgba(140,109,47,.1);font-family:'Didact Gothic',sans-serif;font-size:.7rem;letter-spacing:.08em;text-transform:uppercase}
+.ts-row:last-child{border-bottom:none;color:#c4a96a;font-size:.75rem}
+.ts-label{color:#8c6d2f}
+.ts-val{color:#f5f0e8}
+/* Nav buttons */
+.tp-nav{display:flex;justify-content:space-between;align-items:center;margin-top:8px}
+.tp-back{font-family:'Didact Gothic',sans-serif;font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;color:#8c6d2f;background:none;border:none;cursor:pointer;padding:0;transition:color .3s}
+.tp-back:hover{color:#c4a96a}
+.tp-next{background:#8c6d2f;color:#f5f0e8;border:none;cursor:pointer;padding:14px 32px;font-family:'Didact Gothic',sans-serif;font-size:.62rem;letter-spacing:.18em;text-transform:uppercase;transition:background .3s;position:relative;overflow:hidden}
+.tp-next::before{content:'';position:absolute;inset:0;background:#c4a96a;transform:scaleX(0);transform-origin:left;transition:transform .4s}
+.tp-next:hover{color:#1a1408}
+.tp-next:hover::before{transform:scaleX(1)}
+.tp-next span{position:relative;z-index:1}
+/* Success */
+.tunnel-success{text-align:center;padding:60px 0;display:none}
+.ts-icon{font-size:3rem;margin-bottom:20px;display:block}
+.ts-title{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:2rem;color:#c4a96a;margin-bottom:12px}
+.ts-desc{font-size:.9rem;color:rgba(245,240,232,.5);line-height:1.8;max-width:400px;margin:0 auto}
+@media(max-width:1024px){.tunnel{padding:60px 24px}.tp-options{grid-template-columns:1fr}.tp-grid{grid-template-columns:1fr}.tp-full{grid-column:span 1}.tstep-label{display:none}.tstep-line{width:30px}}
+
+/* ══ RESERVATION ══ */
+.reservation{padding:100px 60px;background:#e8dfc8;display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:start}
+.res-left{}
+.res-pre{font-family:'Didact Gothic',sans-serif;font-size:.58rem;letter-spacing:.22em;text-transform:uppercase;color:#8c6d2f;margin-bottom:16px}
+.res-h2{font-family:'Cormorant Garamond',serif;font-size:clamp(2rem,3.5vw,3.5rem);font-weight:300;font-style:italic;line-height:1.1;margin-bottom:18px;letter-spacing:.02em}
+.res-h2 em{color:#8c6d2f;font-style:normal;display:block}
+.res-p{font-size:.88rem;color:#8c6d2f;line-height:1.9;margin-bottom:28px;font-style:italic}
+.res-infos{display:flex;flex-direction:column;gap:0;border:1px solid rgba(140,109,47,.3)}
+.res-info{padding:16px 20px;display:flex;gap:14px;align-items:center;border-bottom:1px solid rgba(140,109,47,.2);background:#f5f0e8;transition:background .2s}
+.res-info:last-child{border-bottom:none}
+.res-info:hover{background:#fff}
+.ri-ico{color:#8c6d2f;font-size:.9rem;width:16px;text-align:center;flex-shrink:0}
+.ri-label{font-family:'Didact Gothic',sans-serif;font-size:.56rem;letter-spacing:.14em;text-transform:uppercase;color:#c4a96a;min-width:70px}
+.ri-val{font-size:.84rem;color:#1a1408}
+.res-form{background:#1a1408;padding:44px}
+.rf-title{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1.4rem;color:#f5f0e8;margin-bottom:28px;letter-spacing:.04em}
+.rf-title em{color:#c4a96a;font-style:normal}
+.rf-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px}
+.rf-full{grid-column:span 2}
+.rf-input{width:100%;background:rgba(255,255,255,.05);border:1px solid rgba(140,109,47,.25);outline:none;padding:13px 16px;font-family:'EB Garamond',serif;font-size:.9rem;color:#f5f0e8;transition:border-color .3s}
+.rf-input::placeholder{color:rgba(245,240,232,.3)}
+.rf-input:focus{border-color:#8c6d2f}
+.rf-select{width:100%;background:rgba(255,255,255,.05);border:1px solid rgba(140,109,47,.25);outline:none;padding:13px 16px;font-family:'EB Garamond',serif;font-size:.9rem;color:#f5f0e8;cursor:pointer;appearance:none}
+.rf-select option{background:#1a1408}
+.rf-submit{width:100%;margin-top:8px;background:#8c6d2f;color:#f5f0e8;border:none;cursor:pointer;padding:16px;font-family:'Didact Gothic',sans-serif;font-size:.62rem;letter-spacing:.2em;text-transform:uppercase;transition:background .3s}
+.rf-submit:hover{background:#c4a96a;color:#1a1408}
+
+/* ══ TESTIMONIALS ══ */
+.testi{padding:100px 60px;background:#f5f0e8;border-top:1px solid rgba(140,109,47,.2)}
+.t-header{text-align:center;margin-bottom:60px}
+.t-pre{font-family:'Didact Gothic',sans-serif;font-size:.58rem;letter-spacing:.22em;text-transform:uppercase;color:#8c6d2f;margin-bottom:14px;display:flex;align-items:center;justify-content:center;gap:16px}
+.t-pre::before,.t-pre::after{content:'◆';font-size:.4rem;color:#c4a96a}
+.t-h2{font-family:'Cormorant Garamond',serif;font-size:clamp(2rem,3.5vw,3.5rem);font-weight:300;font-style:italic;letter-spacing:.02em}
+.t-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:rgba(140,109,47,.2)}
+.tc{padding:40px;background:#f5f0e8;position:relative;transition:background .3s}
+.tc:hover{background:#f0e8d8}
+.tc-stars{color:#8c6d2f;letter-spacing:4px;font-size:.7rem;margin-bottom:14px}
+.tc-text{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1rem;color:#5a4a2a;line-height:1.8;margin-bottom:20px}
+.tc-name{font-family:'Didact Gothic',sans-serif;font-size:.7rem;font-weight:400;letter-spacing:.1em;text-transform:uppercase;color:#1a1408;margin-bottom:2px}
+.tc-role{font-size:.75rem;color:#8c6d2f;font-style:italic}
+
+/* ══ PRESS ══ */
+.press{padding:60px;background:#1a1408;display:flex;align-items:center;justify-content:space-between;gap:40px;flex-wrap:wrap}
+.press-label{font-family:'Didact Gothic',sans-serif;font-size:.56rem;letter-spacing:.2em;text-transform:uppercase;color:#8c6d2f;white-space:nowrap}
+.press-logos{display:flex;gap:48px;align-items:center;flex-wrap:wrap}
+.press-logo{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:clamp(1rem,2vw,1.3rem);font-weight:300;color:rgba(196,169,106,.35);letter-spacing:.04em;transition:color .3s}
+.press-logo:hover{color:rgba(196,169,106,.8)}
+
+/* ══ FOOTER ══ */
+footer{background:#0d0a04;color:#f5f0e8;padding:80px 60px 40px;display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:60px;border-top:2px solid #8c6d2f}
+.ft-logo-name{font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:300;font-style:italic;letter-spacing:.08em;margin-bottom:6px;display:block;color:#f5f0e8}
+.ft-logo-name em{color:#c4a96a;font-style:normal}
+.ft-tagline{font-family:'Didact Gothic',sans-serif;font-size:.54rem;letter-spacing:.18em;text-transform:uppercase;color:#8c6d2f;margin-bottom:16px}
+.ft-desc{font-size:.84rem;color:rgba(245,240,232,.4);line-height:1.8;font-style:italic;max-width:240px}
+.ft-col h5{font-family:'Didact Gothic',sans-serif;font-size:.54rem;letter-spacing:.18em;text-transform:uppercase;color:#8c6d2f;margin-bottom:18px;padding-bottom:10px;border-bottom:1px solid rgba(140,109,47,.3)}
+.ft-col ul{list-style:none;display:flex;flex-direction:column;gap:10px}
+.ft-col li{font-size:.84rem;color:rgba(245,240,232,.4);transition:color .3s;font-style:italic}
+.ft-col li:hover{color:rgba(245,240,232,.8)}
+.foot-bot{background:#080604;padding:18px 60px;display:flex;justify-content:space-between;font-family:'Didact Gothic',sans-serif;font-size:.54rem;letter-spacing:.08em;text-transform:uppercase;color:rgba(140,109,47,.4)}
+
+/* REVEAL */
+.r{opacity:0;transform:translateY(24px);transition:opacity .85s ease,transform .85s ease}
+.r.v{opacity:1;transform:translateY(0)}
+.d1{transition-delay:.12s}.d2{transition-delay:.24s}.d3{transition-delay:.36s}
+
+@media(max-width:1024px){
+  .nav-inner{grid-template-columns:auto 1fr auto;padding:0 24px}
+  .nav-left{display:none}
+  .nav-right li:not(:last-child){display:none}
+  .story,.ambiance,.reservation{grid-template-columns:1fr}
+  .story-right{padding:60px 28px}
+  .story-left{padding:60px 28px}
+  .menu,.testi{padding:60px 24px}
+  .t-grid{grid-template-columns:1fr}
+  .menu-content.on{grid-template-columns:1fr}
+  .ambiance{padding:60px 24px}
+  .amb-right{display:none}
+  .reservation{padding:60px 24px}
+  .press{padding:40px 24px;flex-direction:column;align-items:flex-start}
+  footer{grid-template-columns:1fr 1fr;padding:60px 24px 36px}
+  .foot-bot{padding:14px 24px;flex-direction:column;gap:4px}
+}
+</style>
+</head>
+<body>
+<div id="progress"></div>
+
+<div class="mov" id="mov">
+  <div class="mov-inner">
+    <div class="mov-links">
+      <a href="#story" onclick="closeM()">Notre histoire</a>
+      <a href="#menu" onclick="closeM()">La carte</a>
+      <a href="#ambiance" onclick="closeM()">L'espace</a>
+      <a href="#reservation" onclick="closeM()">Réserver</a>
+    </div>
+    <div class="mov-divider"></div>
+    <div class="mov-info">Paris 8e · +33 1 42 00 00 00</div>
+  </div>
+</div>
+
+<nav id="nav">
+  <div class="nav-inner">
+    <ul class="nav-left">
+      <li><a href="#story">Histoire</a></li>
+      <li><a href="#menu">Carte</a></li>
+    </ul>
+    <div class="nav-center">
+      <a href="#" class="nav-logo">Maison <em>Céleste</em><span class="nav-logo-sub">Paris · Gastronomie · ★ Michelin</span></a>
+    </div>
+    <ul class="nav-right">
+      <li><a href="#ambiance">L'espace</a></li>
+      <li><a href="#reservation" class="nav-reserve">Réserver</a></li>
+      <li><button class="hbg" id="hbg" onclick="toggleM()"><span></span><span></span><span></span></button></li>
+    </ul>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-circle"></div>
+  <div class="hero-circle2"></div>
+  <div class="hero-lines-v"></div>
+  <div class="hero-lines-v2"></div>
+  <div class="hero-content">
+    <div class="hero-eyebrow">Depuis 2018 · Paris 8e · Étoile Michelin</div>
+    <h1 class="hero-h1">Maison<em>Céleste</em></h1>
+    <div class="hero-subtitle">Gastronomie française contemporaine</div>
+    <div class="hero-actions">
+      <a href="#reservation" class="btn-cream-fill">Réserver une table →</a>
+      <a href="#menu" class="btn-gold-border">Découvrir la carte</a>
+    </div>
+  </div>
+  <div class="hero-bar">
+    <div class="hbar-item"><div class="hbar-icon">🕐</div><div class="hbar-text">Horaires<span>Mar–Sam 12h–22h30</span></div></div>
+    <div class="hbar-divider"></div>
+    <div class="hbar-item"><div class="hbar-icon">📍</div><div class="hbar-text">Adresse<span>12 rue de Monceau, Paris 8e</span></div></div>
+    <div class="hbar-divider"></div>
+    <div class="hbar-item"><div class="hbar-icon">📞</div><div class="hbar-text">Téléphone<span>+33 1 42 00 00 00</span></div></div>
+    <div class="hbar-divider"></div>
+    <div class="hbar-item"><div class="hbar-icon">★</div><div class="hbar-text">Distinction<span>Étoile Michelin · Guide Gault & Millau</span></div></div>
+  </div>
+</section>
+
+<section class="story" id="story">
+  <div class="story-left r">
+    <div class="st-eyebrow">Notre histoire</div>
+    <h2 class="st-h2">Une passion.<br><em>Une maison.</em><br>Une table.</h2>
+    <p class="st-p">Maison Céleste est née d'une conviction : <strong>la gastronomie mérite d'être vécue, pas consommée.</strong> Depuis 2018, notre chef Éric Moreau compose des assiettes qui respectent le produit.</p>
+    <p class="st-p">Nos fournisseurs sont choisis un par un — maraîchers bio d'Île-de-France, pêcheurs bretons, éleveurs normands. <strong>Chaque ingrédient a une histoire.</strong></p>
+    <div class="st-quote">
+      <div class="st-quote-text">« La perfection en cuisine, c'est rendre simple ce qui est complexe. »</div>
+      <div class="st-quote-name">— Éric Moreau, Chef exécutif</div>
+    </div>
+  </div>
+  <div class="story-right">
+    <div class="story-stat r d1"><div class="ss-num">★</div><div class="ss-label">Étoile Michelin</div><div class="ss-desc">Obtenue en 2021, conservée chaque année</div></div>
+    <div class="story-stat r d2"><div class="ss-num">98%</div><div class="ss-label">Taux de satisfaction</div><div class="ss-desc">Sur plus de 2 400 avis vérifiés</div></div>
+    <div class="story-stat r d3"><div class="ss-num">15</div><div class="ss-label">Ans d'expérience</div><div class="ss-desc">Du chef Éric Moreau dans les grandes maisons</div></div>
+    <div class="story-stat r d1"><div class="ss-num">23</div><div class="ss-label">Producteurs partenaires</div><div class="ss-desc">100% français, saisonniers, sélectionnés</div></div>
+  </div>
+</section>
+
+<section class="menu" id="menu">
+  <div class="menu-header r">
+    <div class="menu-pre">La carte</div>
+    <h2 class="menu-h2">Une expérience en <em>trois actes.</em></h2>
+  </div>
+  <div class="menu-tabs r d1">
+    <button class="mt on" onclick="showMenu(this,'entrees')">Entrées</button>
+    <button class="mt" onclick="showMenu(this,'plats')">Plats</button>
+    <button class="mt" onclick="showMenu(this,'desserts')">Desserts</button>
+    <button class="mt" onclick="showMenu(this,'menus')">Menus</button>
+  </div>
+  <div class="menu-content on" id="mc-entrees">
+    <div class="dish r d1"><div class="dish-top"><div class="dish-name">Tartare de Saint-Jacques<em>Yuzu, caviar de Sologne</em></div><div class="dish-price">38€</div></div><div class="dish-desc">Noix de Saint-Jacques de Bretagne, émulsion yuzu-gingembre, caviar Osciètre, huile de noisette torréfiée.</div><div class="dish-allergens">Mollusques · Poisson · Fruits à coque</div></div>
+    <div class="dish r d2"><div class="dish-top"><div class="dish-name">Velouté de truffe noire<em>Crème légère, mouillettes dorées</em></div><div class="dish-price">45€</div></div><div class="dish-desc">Truffe noire du Périgord, bouillon de volaille fermière, crème Isigny, tuile de pain brioché.</div><div class="dish-allergens">Gluten · Lait · Œufs</div></div>
+    <div class="dish r d1"><div class="dish-top"><div class="dish-name">Foie gras mi-cuit<em>Figue rôtie, pain d'épices</em></div><div class="dish-price">42€</div></div><div class="dish-desc">Foie gras de canard des Landes, figues rôties au miel de Bourgogne, gel de porto vintage.</div><div class="dish-allergens">Gluten · Lait</div></div>
+    <div class="dish r d2"><div class="dish-top"><div class="dish-name">Œuf parfait<em>Morilles, asperges vertes</em></div><div class="dish-price">34€</div></div><div class="dish-desc">Œuf de ferme 63°C, morilles de printemps, asperges vertes des Landes, émulsion parmesan 24 mois.</div><div class="dish-allergens">Œufs · Lait</div></div>
+  </div>
+  <div class="menu-content" id="mc-plats">
+    <div class="dish r d1"><div class="dish-top"><div class="dish-name">Sole de ligne<em>Beurre blanc, câpres, citron confit</em></div><div class="dish-price">62€</div></div><div class="dish-desc">Sole de Bretagne, beurre blanc au verjus, câpres de Pantelleria, fenouil braisé.</div><div class="dish-allergens">Poisson · Lait</div></div>
+    <div class="dish r d2"><div class="dish-top"><div class="dish-name">Pigeon rôti entier<em>Jus corsé, betterave, cacao</em></div><div class="dish-price">68€</div></div><div class="dish-desc">Pigeon de Bresse IGP, jus au cacao Valrhona, betterave en textures, purée de topinambour.</div><div class="dish-allergens">Lait</div></div>
+    <div class="dish r d1"><div class="dish-top"><div class="dish-name">Côte de veau de lait<em>Morilles, jus truffe</em></div><div class="dish-price">72€</div></div><div class="dish-desc">Veau de lait normand, morilles sauvages, jus à la truffe noire, gnocchi de pomme de terre.</div><div class="dish-allergens">Lait · Gluten · Œufs</div></div>
+    <div class="dish r d2"><div class="dish-top"><div class="dish-name">Menu végétal du jardin<em>Légumes de saison</em></div><div class="dish-price">58€</div></div><div class="dish-desc">Légumes de nos maraîchers, herbes du jardin, vinaigrette aux agrumes. Entièrement végétal.</div><div class="dish-allergens">100% végétal</div></div>
+  </div>
+  <div class="menu-content" id="mc-desserts">
+    <div class="dish r d1"><div class="dish-top"><div class="dish-name">Soufflé au Grand Marnier<em>Glace vanille Bourbon</em></div><div class="dish-price">22€</div></div><div class="dish-desc">Soufflé chaud, glace vanille Madagascar, sauce caramel beurre salé.</div><div class="dish-allergens">Gluten · Lait · Œufs</div></div>
+    <div class="dish r d2"><div class="dish-top"><div class="dish-name">Tarte Tatin revisitée<em>Crème fraîche Isigny</em></div><div class="dish-price">19€</div></div><div class="dish-desc">Pommes Granny caramélisées à la vanille, pâte feuilletée inversée, sorbet pomme verte.</div><div class="dish-allergens">Gluten · Lait · Œufs</div></div>
+    <div class="dish r d1"><div class="dish-top"><div class="dish-name">Chocolat Manjari 64%<em>Praliné noisette, feuille d'or</em></div><div class="dish-price">24€</div></div><div class="dish-desc">Ganache intense, praliné noisette du Piémont, glace chocolat noir, feuille d'or 24 carats.</div><div class="dish-allergens">Lait · Fruits à coque · Œufs</div></div>
+    <div class="dish r d2"><div class="dish-top"><div class="dish-name">Île flottante<em>Caramel, pralines roses</em></div><div class="dish-price">16€</div></div><div class="dish-desc">Île pochée, crème anglaise vanille de Tahiti, caramel coulant, pralines roses de Lyon.</div><div class="dish-allergens">Lait · Œufs</div></div>
+  </div>
+  <div class="menu-content" id="mc-menus">
+    <div class="dish r d1"><div class="dish-top"><div class="dish-name">Menu Découverte<em>3 plats · Déjeuner</em></div><div class="dish-price">85€</div></div><div class="dish-desc">Entrée + Plat + Dessert. Verre de vin sélectionné inclus. Du mardi au vendredi midi.</div><div class="dish-allergens">Disponible Mar–Ven, service du midi</div></div>
+    <div class="dish r d2"><div class="dish-top"><div class="dish-name">Menu Dégustation<em>6 plats · Accord vins</em></div><div class="dish-price">185€</div></div><div class="dish-desc">Six créations du chef, accord mets et vins (4 verres), mignardises et café.</div><div class="dish-allergens">Chaque soir · Sur réservation</div></div>
+    <div class="dish r d1"><div class="dish-top"><div class="dish-name">Menu Prestige<em>8 plats · Champagne & grands crus</em></div><div class="dish-price">285€</div></div><div class="dish-desc">Huit créations d'exception, champagne à l'apéritif, grands crus de Bourgogne, digestif offert.</div><div class="dish-allergens">Ven & Sam soir · Réservation obligatoire</div></div>
+    <div class="dish r d2"><div class="dish-top"><div class="dish-name">Privatisation<em>Événement sur mesure</em></div><div class="dish-price">Sur devis</div></div><div class="dish-desc">La salle entière pour votre événement. Menu personnalisé, décoration sur-mesure, équipe dédiée.</div><div class="dish-allergens">20 à 60 personnes · Nous contacter</div></div>
+  </div>
+</section>
+
+<section class="ambiance" id="ambiance">
+  <div class="amb-left r">
+    <div class="amb-pre">L'espace</div>
+    <h2 class="amb-h2">Un écrin pour<br><em>chaque moment.</em></h2>
+    <p class="amb-p">Maison Céleste occupe un hôtel particulier du 18e siècle. <strong>Hauts plafonds moulurés, boiseries d'époque, lumières tamisées</strong> — le cadre est à la hauteur de la cuisine.</p>
+    <p class="amb-p">Deux salles — le Grand Salon et la Véranda — accueillent jusqu'à 60 couverts dans un décor intemporel.</p>
+    <div class="amb-details">
+      <div class="amb-row"><div class="amb-row-ico">🕯️</div><div class="amb-row-label">Ambiance</div><div class="amb-row-val">Bougies, musique classique, lumières tamisées</div></div>
+      <div class="amb-row"><div class="amb-row-ico">👔</div><div class="amb-row-label">Tenue</div><div class="amb-row-val">Tenue de ville ou de soirée recommandée</div></div>
+      <div class="amb-row"><div class="amb-row-ico">🚗</div><div class="amb-row-label">Accès</div><div class="amb-row-val">Voiturier · Métro Saint-Philippe-du-Roule</div></div>
+      <div class="amb-row"><div class="amb-row-ico">♿</div><div class="amb-row-label">Accessibilité</div><div class="amb-row-val">Accessible PMR · Entrée dédiée</div></div>
+    </div>
+  </div>
+  <div class="amb-right r d2">
+    <div class="av"></div>
+    <div class="av"></div>
+    <div class="av"></div>
+  </div>
+</section>
+
+<section class="tunnel">
+  <div class="tunnel-header r">
+    <div class="tunnel-pre">Réserver en 3 étapes</div>
+    <h2 class="tunnel-h2">Votre table en <em>3 minutes.</em></h2>
+  </div>
+  <div class="tunnel-steps r d1">
+    <div class="tstep active" id="ts1">
+      <div class="tstep-circle">1</div>
+      <span class="tstep-label">Votre choix</span>
+    </div>
+    <div class="tstep-line"></div>
+    <div class="tstep" id="ts2">
+      <div class="tstep-circle">2</div>
+      <span class="tstep-label">Vos informations</span>
+    </div>
+    <div class="tstep-line"></div>
+    <div class="tstep" id="ts3">
+      <div class="tstep-circle">3</div>
+      <span class="tstep-label">Confirmation</span>
+    </div>
+  </div>
+  <div class="tunnel-content r d2">
+
+    <!-- STEP 1 — Choix menu & date -->
+    <div class="tstep-panel active" id="panel1">
+      <div class="tp-title">Choisissez votre <em>expérience</em></div>
+      <div class="tp-options">
+        <div class="tp-option selected" onclick="selectOption(this,'menu','Découverte')">
+          <div class="tp-option-title">Menu Découverte</div>
+          <div class="tp-option-desc">3 plats · Déjeuner uniquement</div>
+          <div class="tp-option-price">85€ / personne</div>
+        </div>
+        <div class="tp-option" onclick="selectOption(this,'menu','Dégustation')">
+          <div class="tp-option-title">Menu Dégustation</div>
+          <div class="tp-option-desc">6 plats · Accord vins inclus</div>
+          <div class="tp-option-price">185€ / personne</div>
+        </div>
+        <div class="tp-option" onclick="selectOption(this,'menu','Prestige')">
+          <div class="tp-option-title">Menu Prestige</div>
+          <div class="tp-option-desc">8 plats · Champagne & grands crus</div>
+          <div class="tp-option-price">285€ / personne</div>
+        </div>
+        <div class="tp-option" onclick="selectOption(this,'menu','Carte')">
+          <div class="tp-option-title">À la carte</div>
+          <div class="tp-option-desc">Entrées, plats, desserts au choix</div>
+          <div class="tp-option-price">Prix selon sélection</div>
+        </div>
+      </div>
+      <div class="tp-grid">
+        <input type="date" class="tp-input" id="t-date" placeholder="Date souhaitée">
+        <select class="tp-select" id="t-heure"><option>Heure</option><option>12h00</option><option>12h30</option><option>13h00</option><option>19h00</option><option>19h30</option><option>20h00</option><option>20h30</option><option>21h00</option></select>
+        <select class="tp-select tp-full" id="t-couverts"><option>Nombre de couverts</option><option>1 personne</option><option>2 personnes</option><option>3 personnes</option><option>4 personnes</option><option>5 personnes</option><option>6 personnes</option><option>Plus de 6 — nous contacter</option></select>
+      </div>
+      <div class="tp-nav">
+        <span></span>
+        <button class="tp-next" onclick="goStep(2)"><span>Continuer →</span></button>
+      </div>
+    </div>
+
+    <!-- STEP 2 — Informations -->
+    <div class="tstep-panel" id="panel2">
+      <div class="tp-title">Vos <em>coordonnées</em></div>
+      <div class="tp-grid">
+        <input type="text" class="tp-input" placeholder="Prénom">
+        <input type="text" class="tp-input" placeholder="Nom">
+        <input type="email" class="tp-input" placeholder="Email">
+        <input type="tel" class="tp-input" placeholder="Téléphone">
+        <input type="text" class="tp-full tp-input" placeholder="Occasion spéciale ? (anniversaire, fiançailles...)">
+        <textarea class="tp-full tp-input" rows="2" placeholder="Allergies ou régimes alimentaires..." style="resize:none"></textarea>
+      </div>
+      <div class="tp-nav">
+        <button class="tp-back" onclick="goStep(1)">← Retour</button>
+        <button class="tp-next" onclick="goStep(3)"><span>Vérifier ma réservation →</span></button>
+      </div>
+    </div>
+
+    <!-- STEP 3 — Récapitulatif -->
+    <div class="tstep-panel" id="panel3">
+      <div class="tp-title">Récapitulatif de votre <em>réservation</em></div>
+      <div class="tp-summary">
+        <div class="ts-row"><span class="ts-label">Menu sélectionné</span><span class="ts-val" id="sum-menu">Menu Découverte</span></div>
+        <div class="ts-row"><span class="ts-label">Date</span><span class="ts-val" id="sum-date">—</span></div>
+        <div class="ts-row"><span class="ts-label">Heure</span><span class="ts-val" id="sum-heure">—</span></div>
+        <div class="ts-row"><span class="ts-label">Couverts</span><span class="ts-val" id="sum-couverts">—</span></div>
+        <div class="ts-row"><span class="ts-label">Confirmation</span><span class="ts-val">Par email sous 2h</span></div>
+      </div>
+      <div class="tp-nav">
+        <button class="tp-back" onclick="goStep(2)">← Modifier</button>
+        <button class="tp-next" onclick="confirmRes()"><span>Confirmer ma réservation ✓</span></button>
+      </div>
+    </div>
+
+    <!-- SUCCESS -->
+    <div class="tunnel-success" id="tunnelSuccess">
+      <span class="ts-icon">✉️</span>
+      <div class="ts-title">Réservation envoyée.</div>
+      <p class="ts-desc">Nous vous confirmons par email dans les 2 heures. En cas d'urgence : +33 1 42 00 00 00.</p>
+    </div>
+  </div>
+</section>
+
+<section class="reservation" id="reservation">
+  <div class="res-left r">
+    <div class="res-pre">Réservations</div>
+    <h2 class="res-h2">Votre table<br><em>vous attend.</em></h2>
+    <p class="res-p">Les réservations sont recommandées 2 à 3 semaines à l'avance, en particulier pour les week-ends et menus dégustation.</p>
+    <div class="res-infos">
+      <div class="res-info"><div class="ri-ico">🕐</div><div class="ri-label">Horaires</div><div class="ri-val">Mar–Sam : 12h–14h · 19h–22h30</div></div>
+      <div class="res-info"><div class="ri-ico">📍</div><div class="ri-label">Adresse</div><div class="ri-val">12 rue de Monceau, Paris 8e</div></div>
+      <div class="res-info"><div class="ri-ico">📞</div><div class="ri-label">Téléphone</div><div class="ri-val">+33 1 42 00 00 00</div></div>
+      <div class="res-info"><div class="ri-ico">✉️</div><div class="ri-label">Email</div><div class="ri-val">contact@maisoncéleste.fr</div></div>
+    </div>
+  </div>
+  <div class="res-form r d2">
+    <div class="rf-title">Réserver <em>une table</em></div>
+    <div class="rf-grid">
+      <input type="text" class="rf-input" placeholder="Prénom">
+      <input type="text" class="rf-input" placeholder="Nom">
+      <input type="email" class="rf-input rf-full" placeholder="Email">
+      <input type="date" class="rf-input" style="color:rgba(245,240,232,.3)">
+      <select class="rf-select"><option>Heure</option><option>12h00</option><option>12h30</option><option>13h00</option><option>19h00</option><option>19h30</option><option>20h00</option><option>20h30</option><option>21h00</option></select>
+      <select class="rf-select"><option>Couverts</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>+6</option></select>
+      <select class="rf-select rf-full"><option>Menu</option><option>Carte</option><option>Découverte 85€</option><option>Dégustation 185€</option><option>Prestige 285€</option></select>
+      <input type="text" class="rf-input rf-full" placeholder="Occasion spéciale · Allergies (optionnel)">
+    </div>
+    <button class="rf-submit" onclick="alert('Réservation reçue. Confirmation sous 2h.')">Confirmer la réservation →</button>
+  </div>
+</section>
+
+<section class="testi">
+  <div class="t-header r">
+    <div class="t-pre">Ils nous ont choisis</div>
+    <h2 class="t-h2">L'avis de nos <em>convives.</em></h2>
+  </div>
+  <div class="t-grid">
+    <div class="tc r d1"><div class="tc-stars">★★★★★</div><p class="tc-text">Une soirée d'anniversaire inoubliable. Le menu dégustation est un voyage à lui seul. Le service, discret et parfait, est à la hauteur.</p><div class="tc-name">Catherine M.</div><div class="tc-role">Guide Michelin · Vérifiée</div></div>
+    <div class="tc r d2"><div class="tc-stars">★★★★★</div><p class="tc-text">Le meilleur repas de ma vie à Paris. Le soufflé au Grand Marnier à lui seul justifie le déplacement. Je reviens dans trois semaines.</p><div class="tc-name">James W.</div><div class="tc-role">TripAdvisor · Voyageur Gold</div></div>
+    <div class="tc r d3"><div class="tc-stars">★★★★★</div><p class="tc-text">Nous avons privatisé pour notre dîner d'entreprise. Service impeccable, cuisine d'exception, équipe qui a tout anticipé.</p><div class="tc-name">Sophie L.</div><div class="tc-role">DG · Entreprise CAC 40</div></div>
+  </div>
+</section>
+
+<div class="press r">
+  <div class="press-label">Ils parlent de nous</div>
+  <div class="press-logos">
+    <div class="press-logo">Le Figaro</div>
+    <div class="press-logo">Le Monde</div>
+    <div class="press-logo">Condé Nast</div>
+    <div class="press-logo">Time Out Paris</div>
+    <div class="press-logo">Forbes</div>
+  </div>
+</div>
+
+<footer>
+  <div>
+    <span class="ft-logo-name">Maison <em>Céleste</em></span>
+    <div class="ft-tagline">Restaurant Gastronomique · Paris 8e · ★ Michelin</div>
+    <p class="ft-desc">Une cuisine d'exception dans un cadre hors du temps. Ouvert du mardi au samedi.</p>
+  </div>
+  <div class="ft-col"><h5>La carte</h5><ul><li>Entrées</li><li>Plats</li><li>Desserts</li><li>Menus dégustation</li><li>Cave & Vins</li></ul></div>
+  <div class="ft-col"><h5>L'espace</h5><ul><li>Le Grand Salon</li><li>La Véranda</li><li>Privatisation</li><li>Événements</li></ul></div>
+  <div class="ft-col"><h5>Informations</h5><ul><li>12 rue de Monceau, Paris 8e</li><li>+33 1 42 00 00 00</li><li>contact@maisoncéleste.fr</li><li>Mar–Sam : 12h–22h30</li></ul></div>
+</footer>
+<div class="foot-bot">
+  <span>© 2025 Maison Céleste · Paris · Tous droits réservés</span>
+  <span>Une table pour chaque moment précieux</span>
+</div>
+
+<script>
+// Tunnel de conversion
+let selectedMenu = 'Menu Découverte';
+function selectOption(el,type,val){
+  el.closest('.tp-options').querySelectorAll('.tp-option').forEach(o=>o.classList.remove('selected'));
+  el.classList.add('selected');
+  if(type==='menu') selectedMenu=val;
+}
+function goStep(n){
+  for(let i=1;i<=3;i++){
+    document.getElementById('panel'+i).classList.toggle('active',i===n);
+    const ts=document.getElementById('ts'+i);
+    ts.classList.toggle('active',i===n);
+    ts.classList.toggle('done',i<n);
+  }
+  if(n===3){
+    document.getElementById('sum-menu').textContent=selectedMenu;
+    const d=document.getElementById('t-date').value;
+    document.getElementById('sum-date').textContent=d||'Non spécifiée';
+    document.getElementById('sum-heure').textContent=document.getElementById('t-heure').value||'Non spécifiée';
+    document.getElementById('sum-couverts').textContent=document.getElementById('t-couverts').value||'Non spécifié';
+  }
+}
+function confirmRes(){
+  document.querySelector('.tunnel-content').style.display='none';
+  document.querySelector('.tunnel-steps').style.display='none';
+  document.getElementById('tunnelSuccess').style.display='block';
+}
+
+// Progress bar
+window.addEventListener('scroll',()=>{
+  const p=document.getElementById('progress');
+  const pct=(window.scrollY/(document.body.scrollHeight-window.innerHeight))*100;
+  p.style.width=pct+'%';
+  document.getElementById('nav').classList.toggle('solid',window.scrollY>30);
+});
+let mo=false;
+function toggleM(){mo=!mo;document.getElementById('mov').classList.toggle('open',mo);document.getElementById('hbg').classList.toggle('open',mo);document.body.style.overflow=mo?'hidden':'';}
+function closeM(){mo=false;document.getElementById('mov').classList.remove('open');document.getElementById('hbg').classList.remove('open');document.body.style.overflow='';}
+function showMenu(btn,id){
+  document.querySelectorAll('.mt').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');
+  document.querySelectorAll('.menu-content').forEach(c=>c.classList.remove('on'));
+  document.getElementById('mc-'+id).classList.add('on');
+}
+const obs=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('v');obs.unobserve(e.target);}}),{threshold:.08});
+document.querySelectorAll('.r').forEach(el=>obs.observe(el));
+</script>
+</body>
+</html>

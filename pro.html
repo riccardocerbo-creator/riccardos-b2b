@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MAXIME COACH — Coaching Sportif · Paris</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0a0a0a;--bg2:#111;--bg3:#181818;
+  --orange:#e85d04;--orange2:#f77f00;--orange3:#fca311;
+  --white:#f5f5f0;--gray:#666;--gray2:#2a2a2a;
+  --border:rgba(232,93,4,0.2);
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'Barlow',sans-serif;background:var(--bg);color:var(--white);overflow-x:hidden;cursor:none}
+
+/* CURSOR */
+#cur{position:fixed;width:8px;height:8px;background:var(--orange);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%)}
+#cur2{position:fixed;width:36px;height:36px;border:1px solid rgba(232,93,4,.4);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%)}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:800;height:72px;padding:0 60px;display:flex;align-items:center;justify-content:space-between;transition:all .4s}
+nav.solid{background:rgba(10,10,10,.95);backdrop-filter:blur(20px);border-bottom:1px solid var(--border)}
+.nl{font-family:'Bebas Neue',sans-serif;font-size:1.4rem;letter-spacing:.12em;color:var(--white);text-decoration:none}
+.nl em{color:var(--orange);font-style:normal}
+.nc{display:flex;gap:36px;list-style:none;position:absolute;left:50%;transform:translateX(-50%)}
+.nc a{font-family:'DM Mono',monospace;font-size:.6rem;letter-spacing:.16em;text-transform:uppercase;color:var(--gray);text-decoration:none;transition:color .3s}
+.nc a:hover{color:var(--orange)}
+.n-cta{background:var(--orange);color:var(--white);font-family:'DM Mono',monospace;font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;padding:11px 22px;text-decoration:none;position:relative;overflow:hidden;transition:background .3s}
+.n-cta::before{content:'';position:absolute;inset:0;background:var(--orange2);transform:scaleX(0);transform-origin:left;transition:transform .4s}
+.n-cta:hover::before{transform:scaleX(1)}
+.n-cta span{position:relative;z-index:1}
+.hbg{background:none;border:none;cursor:none;display:flex;flex-direction:column;gap:5px;padding:4px}
+.hbg span{display:block;width:22px;height:1px;background:var(--white);transition:all .4s;transform-origin:center}
+.hbg.open span:nth-child(1){transform:translateY(6px) rotate(45deg)}
+.hbg.open span:nth-child(2){opacity:0}
+.hbg.open span:nth-child(3){transform:translateY(-6px) rotate(-45deg)}
+
+/* MENU OVERLAY */
+.mov{position:fixed;inset:0;background:var(--bg);z-index:700;display:flex;align-items:center;justify-content:center;opacity:0;visibility:hidden;transition:opacity .5s,visibility .5s}
+.mov.open{opacity:1;visibility:visible}
+.mov-links{display:flex;flex-direction:column;gap:4px;text-align:center}
+.mov-links a{font-family:'Bebas Neue',sans-serif;font-size:clamp(3rem,7vw,6rem);letter-spacing:.1em;color:var(--white);text-decoration:none;transition:color .3s;line-height:1.1}
+.mov-links a:hover{color:var(--orange)}
+.mov-sub{margin-top:36px;font-family:'DM Mono',monospace;font-size:.58rem;color:var(--gray);letter-spacing:.16em;text-transform:uppercase;text-align:center}
+
+/* HERO — full height, bold typography, animated counter */
+.hero{min-height:100vh;position:relative;overflow:hidden;display:flex;flex-direction:column;justify-content:flex-end;padding-bottom:0}
+/* Animated bg */
+.hero-bg{position:absolute;inset:0;background:linear-gradient(135deg,#0a0a0a 0%,#111 40%,#0d0a08 100%)}
+.hero-grid-bg{position:absolute;inset:0;background-image:linear-gradient(rgba(232,93,4,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(232,93,4,.04) 1px,transparent 1px);background-size:60px 60px}
+.hero-glow{position:absolute;top:-20%;right:-10%;width:60vw;height:60vw;background:radial-gradient(circle,rgba(232,93,4,.08) 0%,transparent 60%);animation:glow 5s ease-in-out infinite}
+@keyframes glow{0%,100%{transform:scale(1)}50%{transform:scale(1.08)}}
+
+/* Big number bg */
+.hero-bignum{position:absolute;bottom:-60px;left:-20px;font-family:'Bebas Neue',sans-serif;font-size:clamp(20rem,35vw,36rem);color:rgba(232,93,4,.04);line-height:1;pointer-events:none;letter-spacing:-.02em;z-index:0}
+
+.hero-content{position:relative;z-index:1;padding:0 60px 0;padding-top:120px;display:grid;grid-template-columns:1fr 480px;gap:60px;align-items:flex-end;padding-bottom:60px}
+.hc-left{}
+.h-eyebrow{font-family:'DM Mono',monospace;font-size:.6rem;letter-spacing:.22em;text-transform:uppercase;color:var(--orange);margin-bottom:24px;display:flex;align-items:center;gap:10px;opacity:0;animation:hup .8s ease .3s forwards}
+.h-eyebrow::before{content:'';width:28px;height:1px;background:var(--orange)}
+.h-h1{font-family:'Bebas Neue',sans-serif;font-size:clamp(5rem,10vw,11rem);line-height:.9;letter-spacing:.03em;margin-bottom:24px;opacity:0;animation:hup .9s ease .5s forwards}
+.h-h1 .line2{color:var(--orange);display:block;-webkit-text-stroke:2px var(--orange);color:transparent;animation:strokeFill 1s 1.5s forwards}
+@keyframes strokeFill{to{color:var(--orange);-webkit-text-stroke:0}}
+.h-desc{font-size:1rem;font-weight:300;color:var(--gray);line-height:1.8;max-width:460px;margin-bottom:36px;opacity:0;animation:hup .9s ease .7s forwards}
+.h-desc strong{color:var(--white);font-weight:500}
+.h-actions{display:flex;gap:14px;align-items:center;opacity:0;animation:hup .9s ease .9s forwards}
+.btn-orange{display:inline-flex;align-items:center;gap:10px;background:var(--orange);color:var(--white);font-family:'DM Mono',monospace;font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;padding:16px 32px;text-decoration:none;position:relative;overflow:hidden;transition:transform .3s}
+.btn-orange::before{content:'';position:absolute;inset:0;background:var(--orange2);transform:scaleX(0);transform-origin:left;transition:transform .4s}
+.btn-orange:hover{transform:translateY(-3px)}
+.btn-orange:hover::before{transform:scaleX(1)}
+.btn-orange span{position:relative;z-index:1}
+.btn-ghost-o{font-family:'DM Mono',monospace;font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gray);text-decoration:none;border:1px solid var(--gray2);padding:15px 24px;transition:border-color .3s,color .3s}
+.btn-ghost-o:hover{border-color:var(--orange);color:var(--orange)}
+
+/* Hero right — stats panel */
+.hc-right{opacity:0;animation:hup .9s ease 1.1s forwards}
+.stats-panel{background:var(--bg2);border:1px solid var(--border);display:flex;flex-direction:column;gap:0}
+.sp-item{padding:22px 28px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:20px;transition:background .3s}
+.sp-item:last-child{border-bottom:none}
+.sp-item:hover{background:rgba(232,93,4,.04)}
+.sp-num{font-family:'Bebas Neue',sans-serif;font-size:2.8rem;color:var(--orange);line-height:1;min-width:80px}
+.sp-label{font-family:'DM Mono',monospace;font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;color:var(--gray)}
+.sp-label strong{display:block;color:var(--white);font-size:.72rem;margin-bottom:2px}
+
+@keyframes hup{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:translateY(0)}}
+
+/* TICKER */
+.ticker{background:var(--orange);padding:12px 0;overflow:hidden;white-space:nowrap}
+.ticker-inner{display:inline-flex;animation:tick 20s linear infinite}
+.ti{font-family:'Bebas Neue',sans-serif;font-size:.9rem;letter-spacing:.12em;color:var(--white);padding:0 28px;display:flex;align-items:center;gap:28px}
+.ti::after{content:'✦';font-size:.5rem}
+@keyframes tick{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* TRANSFORMATION */
+.transformation{padding:120px 60px;display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center}
+.tr-left{}
+.tr-eyebrow{font-family:'DM Mono',monospace;font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:var(--orange);margin-bottom:16px}
+.tr-h2{font-family:'Bebas Neue',sans-serif;font-size:clamp(3rem,5vw,5.5rem);letter-spacing:.04em;line-height:.95;margin-bottom:20px}
+.tr-h2 em{color:var(--orange);font-style:normal;display:block}
+.tr-p{font-size:.95rem;font-weight:300;color:var(--gray);line-height:1.85;margin-bottom:14px}
+.tr-p strong{color:var(--white);font-weight:500}
+.tr-right{display:flex;flex-direction:column;gap:3px}
+.tr-result{padding:24px 28px;background:var(--bg2);border:1px solid var(--border);display:flex;gap:20px;align-items:center;position:relative;overflow:hidden;transition:border-color .3s,background .3s}
+.tr-result::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--orange);transform:scaleY(0);transform-origin:top;transition:transform .4s}
+.tr-result:hover{border-color:var(--orange);background:rgba(232,93,4,.04)}
+.tr-result:hover::before{transform:scaleY(1)}
+.tr-num{font-family:'Bebas Neue',sans-serif;font-size:2.5rem;color:var(--orange);line-height:1;min-width:80px}
+.tr-label{font-size:.85rem;color:var(--gray);font-weight:300;line-height:1.5}
+.tr-label strong{display:block;color:var(--white);font-weight:500;margin-bottom:2px}
+
+/* PROGRAMMES */
+.programmes{padding:120px 60px;background:var(--bg2);border-top:1px solid var(--border)}
+.prog-header{text-align:center;margin-bottom:80px}
+.prog-eyebrow{font-family:'DM Mono',monospace;font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:var(--orange);margin-bottom:14px;display:flex;align-items:center;justify-content:center;gap:14px}
+.prog-eyebrow::before,.prog-eyebrow::after{content:'';width:36px;height:1px;background:var(--border)}
+.prog-h2{font-family:'Bebas Neue',sans-serif;font-size:clamp(2.5rem,5vw,5rem);letter-spacing:.04em;line-height:.95}
+.prog-h2 em{color:var(--orange);font-style:normal}
+.prog-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:3px}
+.prog{padding:40px 32px;background:var(--bg3);border:1px solid var(--border);position:relative;overflow:hidden;transition:transform .4s cubic-bezier(.4,0,.2,1),border-color .4s;display:flex;flex-direction:column}
+.prog:hover{transform:translateY(-6px);border-color:var(--orange)}
+.prog.featured{background:linear-gradient(145deg,#110600,#180900);border-color:var(--orange)}
+.prog.featured::before{content:'Populaire';position:absolute;top:0;left:50%;transform:translateX(-50%);background:var(--orange);color:var(--white);font-family:'DM Mono',monospace;font-size:.52rem;letter-spacing:.12em;text-transform:uppercase;padding:4px 18px}
+.prog::after{content:'';position:absolute;bottom:0;right:0;width:60px;height:60px;background:linear-gradient(135deg,transparent 50%,rgba(232,93,4,.06) 50%)}
+.prog-ico{font-size:2rem;margin-bottom:18px;display:block}
+.prog-name{font-family:'Bebas Neue',sans-serif;font-size:1.6rem;letter-spacing:.06em;margin-bottom:8px}
+.prog-desc{font-size:.82rem;color:var(--gray);font-weight:300;line-height:1.7;margin-bottom:20px}
+.prog-feats{list-style:none;display:flex;flex-direction:column;gap:9px;margin-bottom:24px;flex:1}
+.prog-feats li{font-size:.8rem;color:var(--gray);font-weight:300;display:flex;align-items:flex-start;gap:8px;line-height:1.4}
+.prog-feats li.on{color:var(--white)}
+.prog-feats li::before{content:'→';color:var(--orange);flex-shrink:0;font-weight:700}
+.prog-price{font-family:'Bebas Neue',sans-serif;font-size:2.2rem;color:var(--orange);line-height:1;margin-bottom:4px}
+.prog-price-sub{font-family:'DM Mono',monospace;font-size:.56rem;color:var(--gray);letter-spacing:.08em;text-transform:uppercase;margin-bottom:20px}
+.btn-prog{display:block;text-align:center;text-decoration:none;font-family:'DM Mono',monospace;font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;padding:14px;position:relative;overflow:hidden;transition:color .3s;margin-top:auto}
+.btn-prog-out{border:1px solid var(--border);color:var(--orange)}
+.btn-prog-out::before{content:'';position:absolute;inset:0;background:rgba(232,93,4,.08);transform:scaleX(0);transform-origin:left;transition:transform .4s}
+.btn-prog-out:hover::before{transform:scaleX(1)}
+.btn-prog-fill{background:var(--orange);color:var(--white)}
+.btn-prog-fill::before{content:'';position:absolute;inset:0;background:var(--orange2);transform:scaleX(0);transform-origin:left;transition:transform .4s}
+.btn-prog-fill:hover{color:var(--white)}
+.btn-prog-fill:hover::before{transform:scaleX(1)}
+.btn-prog span{position:relative;z-index:1}
+
+/* FORMAT SEANCES */
+.format{padding:120px 60px;display:grid;grid-template-columns:1fr 1fr;gap:3px}
+.fmt-item{padding:48px 44px;background:var(--bg2);border:1px solid var(--border);transition:border-color .3s,background .3s;display:flex;gap:24px}
+.fmt-item:hover{border-color:var(--orange);background:rgba(232,93,4,.03)}
+.fmt-ico{font-size:2.5rem;flex-shrink:0;margin-top:4px}
+.fmt-tag{font-family:'DM Mono',monospace;font-size:.56rem;letter-spacing:.14em;text-transform:uppercase;color:var(--orange);margin-bottom:8px}
+.fmt-title{font-family:'Bebas Neue',sans-serif;font-size:1.5rem;letter-spacing:.06em;margin-bottom:10px}
+.fmt-desc{font-size:.84rem;color:var(--gray);font-weight:300;line-height:1.7;margin-bottom:14px}
+.fmt-badge{display:inline-block;font-family:'DM Mono',monospace;font-size:.56rem;letter-spacing:.1em;text-transform:uppercase;color:var(--orange);border:1px solid var(--border);padding:4px 12px}
+
+/* NUTRITION SECTION */
+.nutrition{padding:80px 60px;background:var(--orange);display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center}
+.nut-left{}
+.nut-tag{font-family:'DM Mono',monospace;font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.6);margin-bottom:14px}
+.nut-h2{font-family:'Bebas Neue',sans-serif;font-size:clamp(2.5rem,4vw,4.5rem);letter-spacing:.04em;line-height:.95;color:var(--bg);margin-bottom:16px}
+.nut-p{font-size:.95rem;color:rgba(10,10,10,.7);line-height:1.8;font-weight:300}
+.nut-right{display:flex;flex-direction:column;gap:3px}
+.nut-item{padding:18px 22px;background:rgba(10,10,10,.12);border-left:3px solid rgba(10,10,10,.3);display:flex;gap:14px;align-items:center}
+.nut-item-ico{font-size:1.1rem}
+.nut-item-text{font-size:.84rem;color:var(--bg);font-weight:500}
+.nut-item-text span{display:block;font-weight:300;font-size:.78rem;color:rgba(10,10,10,.6);margin-top:1px}
+
+/* RDV BOOKING */
+.booking{padding:120px 60px;background:var(--bg)}
+.bk-inner{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:start}
+.bk-tag{font-family:'DM Mono',monospace;font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:var(--orange);margin-bottom:14px}
+.bk-h2{font-family:'Bebas Neue',sans-serif;font-size:clamp(2.5rem,4vw,4.5rem);letter-spacing:.04em;line-height:.95;margin-bottom:20px}
+.bk-h2 em{color:var(--orange);font-style:normal;display:block}
+.bk-p{font-size:.88rem;color:var(--gray);font-weight:300;line-height:1.85;margin-bottom:28px}
+.bk-infos{display:flex;flex-direction:column;gap:3px}
+.bk-info{padding:14px 18px;background:var(--bg2);border:1px solid var(--border);display:flex;align-items:center;gap:14px}
+.bi-ico{font-size:.9rem}
+.bi-label{font-family:'DM Mono',monospace;font-size:.54rem;letter-spacing:.1em;text-transform:uppercase;color:var(--gray);min-width:70px}
+.bi-val{font-size:.84rem;color:var(--white);font-weight:300}
+.bk-form{background:var(--bg2);border:1px solid var(--border);padding:40px}
+.bk-form::before{content:'';display:block;height:2px;background:linear-gradient(90deg,var(--orange),var(--orange2),transparent);margin-bottom:28px;margin:-40px -40px 28px}
+.bk-form-title{font-family:'Bebas Neue',sans-serif;font-size:1.6rem;letter-spacing:.06em;margin-bottom:24px}
+.bk-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px}
+.bk-full{grid-column:span 2}
+.bk-input{width:100%;background:var(--bg3);border:1px solid var(--border);outline:none;padding:13px 16px;font-family:'Barlow',sans-serif;font-size:.86rem;color:var(--white);font-weight:300;transition:border-color .3s}
+.bk-input::placeholder{color:var(--gray)}
+.bk-input:focus{border-color:var(--orange)}
+.bk-select{width:100%;background:var(--bg3);border:1px solid var(--border);outline:none;padding:13px 16px;font-family:'Barlow',sans-serif;font-size:.86rem;color:var(--white);cursor:none;appearance:none}
+.bk-select option{background:var(--bg3)}
+.bk-submit{width:100%;margin-top:8px;background:var(--orange);color:var(--white);border:none;cursor:none;padding:15px;font-family:'DM Mono',monospace;font-size:.62rem;letter-spacing:.16em;text-transform:uppercase;position:relative;overflow:hidden;transition:background .3s}
+.bk-submit::before{content:'';position:absolute;inset:0;background:var(--orange2);transform:scaleX(0);transform-origin:left;transition:transform .4s}
+.bk-submit:hover::before{transform:scaleX(1)}
+.bk-submit span{position:relative;z-index:1}
+
+/* BLOG */
+.blog{padding:120px 60px;background:var(--bg);border-top:1px solid var(--border)}
+.blog-header{text-align:center;margin-bottom:60px}
+.blog-eyebrow{font-family:'DM Mono',monospace;font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:var(--orange);margin-bottom:14px;display:flex;align-items:center;justify-content:center;gap:14px}
+.blog-eyebrow::before,.blog-eyebrow::after{content:'';width:36px;height:1px;background:var(--border)}
+.blog-h2{font-family:'Bebas Neue',sans-serif;font-size:clamp(2.5rem,4vw,4.5rem);letter-spacing:.04em;line-height:.95}
+.blog-h2 em{color:var(--orange);font-style:normal}
+.blog-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:3px}
+.blog-item{padding:36px 32px;background:var(--bg2);border:1px solid var(--border);position:relative;overflow:hidden;transition:border-color .3s,transform .3s;display:flex;flex-direction:column;gap:12px}
+.blog-item:hover{border-color:var(--orange);transform:translateY(-4px)}
+.blog-item::before{content:'';position:absolute;top:0;left:0;width:0;height:2px;background:var(--orange);transition:width .4s}
+.blog-item:hover::before{width:100%}
+.blog-tag{font-family:'DM Mono',monospace;font-size:.54rem;letter-spacing:.12em;text-transform:uppercase;color:var(--orange);background:rgba(232,93,4,.08);border:1px solid var(--border);padding:3px 10px;width:fit-content}
+.blog-title{font-family:'Bebas Neue',sans-serif;font-size:1.2rem;letter-spacing:.04em;line-height:1.1;color:var(--white)}
+.blog-desc{font-size:.82rem;color:var(--gray);font-weight:300;line-height:1.7;flex:1}
+.blog-meta{font-family:'DM Mono',monospace;font-size:.56rem;letter-spacing:.1em;text-transform:uppercase;color:var(--gray);border-top:1px solid var(--border);padding-top:12px;margin-top:auto}
+@media(max-width:1024px){.blog{padding:80px 24px}.blog-grid{grid-template-columns:1fr}}
+
+/* TESTIMONIALS */
+.testi{padding:120px 60px;background:var(--bg2);border-top:1px solid var(--border)}
+.testi-header{text-align:center;margin-bottom:60px}
+.t-eyebrow{font-family:'DM Mono',monospace;font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:var(--orange);margin-bottom:12px;display:flex;align-items:center;justify-content:center;gap:14px}
+.t-eyebrow::before,.t-eyebrow::after{content:'';width:36px;height:1px;background:var(--border)}
+.t-h2{font-family:'Bebas Neue',sans-serif;font-size:clamp(2.5rem,4vw,4.5rem);letter-spacing:.04em;line-height:.95}
+.t-h2 em{color:var(--orange);font-style:normal}
+.t-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:3px}
+.tc{padding:36px;background:var(--bg3);border:1px solid var(--border);position:relative;overflow:hidden;transition:border-color .3s}
+.tc:hover{border-color:var(--orange)}
+.tc-stars{color:var(--orange);letter-spacing:3px;font-size:.72rem;margin-bottom:12px}
+.tc-text{font-size:.88rem;color:var(--gray);font-weight:300;line-height:1.8;font-style:italic;margin-bottom:20px}
+.tc-auth{display:flex;align-items:center;gap:12px}
+.tc-av{width:40px;height:40px;background:var(--orange);display:flex;align-items:center;justify-content:center;font-family:'Bebas Neue',sans-serif;font-size:1rem;color:var(--white);flex-shrink:0;clip-path:polygon(5px 0%,100% 0%,calc(100% - 5px) 100%,0% 100%)}
+.tc-name{font-weight:600;font-size:.86rem;margin-bottom:1px}
+.tc-role{font-family:'DM Mono',monospace;font-size:.56rem;color:var(--gray);letter-spacing:.08em;text-transform:uppercase}
+.tc-result{margin-top:16px;padding:9px 14px;background:rgba(232,93,4,.08);border-left:2px solid var(--orange);font-family:'DM Mono',monospace;font-size:.58rem;letter-spacing:.08em;text-transform:uppercase;color:var(--orange)}
+
+/* FAQ */
+.faq{padding:120px 60px;border-top:1px solid var(--border)}
+.faq-inner{display:grid;grid-template-columns:1fr 2fr;gap:90px}
+.faq-h2{font-family:'Bebas Neue',sans-serif;font-size:clamp(2.5rem,4vw,4rem);letter-spacing:.04em;line-height:.95}
+.faq-h2 em{color:var(--orange);font-style:normal;display:block}
+.faq-note{margin-top:16px;font-size:.82rem;color:var(--gray);font-weight:300;line-height:1.7}
+.faq-list{display:flex;flex-direction:column}
+.fi{border-bottom:1px solid var(--border)}
+.fi:first-child{border-top:1px solid var(--border)}
+.fq{width:100%;padding:20px 0;display:flex;align-items:center;justify-content:space-between;background:none;border:none;cursor:none;font-family:'Barlow',sans-serif;font-size:.9rem;font-weight:500;color:var(--white);text-align:left;gap:16px;transition:color .3s}
+.fq:hover{color:var(--orange)}
+.fi-ico{width:18px;height:18px;flex-shrink:0;position:relative}
+.fi-ico::before,.fi-ico::after{content:'';position:absolute;background:var(--orange);top:50%;left:50%;transform:translate(-50%,-50%);transition:transform .4s,opacity .4s}
+.fi-ico::before{width:10px;height:1px}
+.fi-ico::after{width:1px;height:10px}
+.fi.open .fi-ico::after{transform:translate(-50%,-50%) rotate(90deg);opacity:0}
+.fa{max-height:0;overflow:hidden;font-size:.84rem;color:var(--gray);font-weight:300;line-height:1.8;transition:max-height .5s cubic-bezier(.4,0,.2,1),padding .5s}
+.fi.open .fa{max-height:200px;padding-bottom:20px}
+
+/* CTA */
+.cta{padding:140px 60px;position:relative;overflow:hidden;text-align:center}
+.cta::before{content:'APEX';font-family:'Bebas Neue',sans-serif;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:clamp(12rem,22vw,20rem);color:rgba(232,93,4,.04);letter-spacing:.1em;pointer-events:none;white-space:nowrap}
+.cta-inner{position:relative;z-index:1}
+.cta-tag{font-family:'DM Mono',monospace;font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:var(--orange);margin-bottom:18px;display:flex;align-items:center;justify-content:center;gap:14px}
+.cta-tag::before,.cta-tag::after{content:'';width:40px;height:1px;background:var(--border)}
+.cta-h2{font-family:'Bebas Neue',sans-serif;font-size:clamp(3rem,6vw,6.5rem);letter-spacing:.04em;line-height:.92;margin-bottom:16px}
+.cta-h2 em{color:var(--orange);font-style:normal;display:block}
+.cta-sub{font-size:.92rem;color:var(--gray);font-weight:300;max-width:420px;margin:0 auto 44px;line-height:1.8}
+.cta-form{display:flex;max-width:440px;margin:0 auto 14px;background:var(--bg2);border:1px solid var(--border)}
+.cta-input{flex:1;background:none;border:none;outline:none;padding:15px 18px;font-family:'Barlow',sans-serif;font-size:.88rem;color:var(--white);font-weight:300}
+.cta-input::placeholder{color:var(--gray)}
+.cta-submit{background:var(--orange);color:var(--white);border:none;cursor:none;padding:15px 24px;font-family:'DM Mono',monospace;font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;white-space:nowrap;position:relative;overflow:hidden;transition:background .3s}
+.cta-submit::before{content:'';position:absolute;inset:0;background:var(--orange2);transform:scaleX(0);transform-origin:left;transition:transform .4s}
+.cta-submit:hover::before{transform:scaleX(1)}
+.cta-submit span{position:relative;z-index:1}
+
+/* FOOTER */
+footer{border-top:1px solid var(--border);padding:70px 60px 36px;display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:56px;background:var(--bg2)}
+.ft-logo{font-family:'Bebas Neue',sans-serif;font-size:1.6rem;letter-spacing:.1em;margin-bottom:10px;display:block}
+.ft-logo em{color:var(--orange);font-style:normal}
+.ft-tag{font-family:'DM Mono',monospace;font-size:.54rem;color:var(--gray);letter-spacing:.14em;text-transform:uppercase;margin-bottom:16px}
+.ft-desc{font-size:.8rem;color:var(--gray);font-weight:300;line-height:1.8;max-width:250px}
+.ft-col h5{font-family:'DM Mono',monospace;font-size:.54rem;letter-spacing:.16em;text-transform:uppercase;color:var(--orange);margin-bottom:18px;padding-bottom:10px;border-bottom:1px solid var(--border)}
+.ft-col ul{list-style:none;display:flex;flex-direction:column;gap:10px}
+.ft-col li{font-size:.8rem;color:var(--gray);font-weight:300;transition:color .3s;cursor:none}
+.ft-col li:hover{color:var(--orange)}
+.foot-bot{border-top:1px solid var(--border);padding:18px 60px;display:flex;justify-content:space-between;font-family:'DM Mono',monospace;font-size:.54rem;color:var(--gray2);letter-spacing:.06em;text-transform:uppercase}
+
+/* REVEAL */
+.r{opacity:0;transform:translateY(28px);transition:opacity .8s cubic-bezier(.4,0,.2,1),transform .8s cubic-bezier(.4,0,.2,1)}
+.r.v{opacity:1;transform:translateY(0)}
+.d1{transition-delay:.1s}.d2{transition-delay:.2s}.d3{transition-delay:.3s}.d4{transition-delay:.4s}
+
+@media(max-width:1024px){
+  nav{padding:0 24px}
+  .nc{display:none}
+  .hero-content{grid-template-columns:1fr;padding:100px 24px 48px}
+  .hc-right{display:none}
+  .transformation{grid-template-columns:1fr;padding:80px 24px;gap:48px}
+  .programmes{padding:80px 24px}
+  .prog-grid{grid-template-columns:1fr}
+  .format{grid-template-columns:1fr;padding:80px 24px}
+  .nutrition{grid-template-columns:1fr;padding:60px 24px;gap:40px}
+  .booking{padding:80px 24px}
+  .bk-inner{grid-template-columns:1fr;gap:48px}
+  .testi{padding:80px 24px}
+  .t-grid{grid-template-columns:1fr}
+  .faq{padding:80px 24px}
+  .faq-inner{grid-template-columns:1fr;gap:40px}
+  .cta{padding:100px 24px}
+  footer{grid-template-columns:1fr 1fr;padding:60px 24px 36px}
+  .foot-bot{padding:14px 24px;flex-direction:column;gap:6px;text-align:center}
+}
+</style>
+</head>
+<body>
+<div id="cur"></div>
+<div id="cur2"></div>
+
+<div class="mov" id="mov">
+  <div>
+    <div class="mov-links">
+      <a href="#transformation" onclick="closeM()">Résultats</a>
+      <a href="#programmes" onclick="closeM()">Programmes</a>
+      <a href="#booking" onclick="closeM()">Réserver</a>
+      <a href="#faq" onclick="closeM()">FAQ</a>
+    </div>
+    <div class="mov-sub">maxime@coaching.fr · Paris</div>
+  </div>
+</div>
+
+<nav id="nav">
+  <a href="#" class="nl">MAXIME <em>COACH</em></a>
+  <ul class="nc">
+    <li><a href="#transformation">Résultats</a></li>
+    <li><a href="#programmes">Programmes</a></li>
+    <li><a href="#format">Format</a></li>
+    <li><a href="#booking">Réserver</a></li>
+  </ul>
+  <div style="display:flex;align-items:center;gap:14px">
+    <a href="#booking" class="n-cta"><span>Programme gratuit →</span></a>
+    <button class="hbg" id="hbg" onclick="toggleM()"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid-bg"></div>
+  <div class="hero-glow"></div>
+  <div class="hero-bignum">500</div>
+  <div class="hero-content">
+    <div class="hc-left">
+      <div class="h-eyebrow">Coach certifié · Paris · En ligne & présentiel</div>
+      <h1 class="h-h1">Transforme<br><span class="line2">ton corps.</span><br>Dépasse<br>tes limites.</h1>
+      <p class="h-desc">Programmes <strong>100% personnalisés</strong> — perte de poids, prise de muscle, performance. Suivi individuel en ligne ou à Paris. <strong>Résultats garantis en 4 semaines.</strong></p>
+      <div class="h-actions">
+        <a href="#booking" class="btn-orange"><span>Programme gratuit →</span></a>
+        <a href="#programmes" class="btn-ghost-o">Voir les programmes</a>
+      </div>
+    </div>
+    <div class="hc-right">
+      <div class="stats-panel">
+        <div class="sp-item"><div class="sp-num">500+</div><div class="sp-label"><strong>Clients transformés</strong>Depuis 2020</div></div>
+        <div class="sp-item"><div class="sp-num">97%</div><div class="sp-label"><strong>Taux de satisfaction</strong>Sur résultats obtenus</div></div>
+        <div class="sp-item"><div class="sp-num">4 sem.</div><div class="sp-label"><strong>Premiers résultats</strong>Garantis ou remboursé</div></div>
+        <div class="sp-item"><div class="sp-num">7j/7</div><div class="sp-label"><strong>Disponibilité</strong>Suivi continu inclus</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="ticker">
+  <div class="ticker-inner">
+    <span class="ti">Perte de poids</span><span class="ti">Prise de muscle</span><span class="ti">Performance</span><span class="ti">Nutrition incluse</span><span class="ti">En ligne</span><span class="ti">Paris</span><span class="ti">Résultats garantis</span>
+    <span class="ti">Perte de poids</span><span class="ti">Prise de muscle</span><span class="ti">Performance</span><span class="ti">Nutrition incluse</span><span class="ti">En ligne</span><span class="ti">Paris</span><span class="ti">Résultats garantis</span>
+  </div>
+</div>
+
+<section class="transformation" id="transformation">
+  <div class="tr-left r">
+    <div class="tr-eyebrow">Pourquoi ça marche</div>
+    <h2 class="tr-h2">Un coaching<br><em>qui prouve.</em></h2>
+    <p class="tr-p">Fini les programmes génériques copiés-collés. Chaque client reçoit un plan <strong>100% personnalisé</strong> — adapté à son corps, ses contraintes, ses objectifs.</p>
+    <p class="tr-p">Entraînement progressif + nutrition adaptée + suivi hebdomadaire = <strong>résultats mesurables en 4 semaines.</strong></p>
+  </div>
+  <div class="tr-right">
+    <div class="tr-result r d1"><div class="tr-num">-12kg</div><div class="tr-label"><strong>Perte moyenne</strong>Sur un programme de 12 semaines</div></div>
+    <div class="tr-result r d2"><div class="tr-num">+8kg</div><div class="tr-label"><strong>Prise de muscle</strong>Programme force sur 4 mois</div></div>
+    <div class="tr-result r d3"><div class="tr-num">100%</div><div class="tr-label"><strong>Programmes sur mesure</strong>Aucun template générique</div></div>
+    <div class="tr-result r d4"><div class="tr-num">48h</div><div class="tr-label"><strong>Délai de réponse max</strong>Suivi continu 7j/7</div></div>
+  </div>
+</section>
+
+<section class="programmes" id="programmes">
+  <div class="prog-header r">
+    <div class="prog-eyebrow">Programmes</div>
+    <h2 class="prog-h2">Choisis ton <em>niveau.</em></h2>
+  </div>
+  <div class="prog-grid">
+    <div class="prog r d1">
+      <span class="prog-ico">🌱</span>
+      <div class="prog-name">STARTER</div>
+      <div class="prog-desc">Pour commencer sans se perdre. Programme simple, suivi efficace.</div>
+      <ul class="prog-feats">
+        <li class="on">Programme 8 semaines personnalisé</li>
+        <li class="on">Plan nutrition de base</li>
+        <li class="on">Suivi mensuel en visio</li>
+        <li class="on">Accès app coaching</li>
+        <li>Suivi hebdomadaire</li>
+        <li>Séances présentiel Paris</li>
+      </ul>
+      <div class="prog-price">149€<span style="font-size:1rem;color:var(--gray)">/mois</span></div>
+      <div class="prog-price-sub">Engagement 2 mois</div>
+      <a href="#booking" class="btn-prog btn-prog-out"><span>Commencer →</span></a>
+    </div>
+    <div class="prog featured r d2">
+      <span class="prog-ico">🔥</span>
+      <div class="prog-name">TRANSFORMATION</div>
+      <div class="prog-desc">Le programme complet pour une vraie transformation en 12 semaines.</div>
+      <ul class="prog-feats">
+        <li class="on">Programme 12 semaines</li>
+        <li class="on">Nutrition 100% personnalisée</li>
+        <li class="on">Suivi hebdomadaire visio</li>
+        <li class="on">Messages illimités 7j/7</li>
+        <li class="on">Ajustements continus</li>
+        <li class="on">Bilan mensuel complet</li>
+      </ul>
+      <div class="prog-price">249€<span style="font-size:1rem;color:var(--gray)">/mois</span></div>
+      <div class="prog-price-sub">Engagement 3 mois</div>
+      <a href="#booking" class="btn-prog btn-prog-fill"><span>Commencer →</span></a>
+    </div>
+    <div class="prog r d3">
+      <span class="prog-ico">⚡</span>
+      <div class="prog-name">ELITE</div>
+      <div class="prog-desc">Coaching premium avec séances en présentiel et suivi quotidien.</div>
+      <ul class="prog-feats">
+        <li class="on">Tout Transformation +</li>
+        <li class="on">4 séances/mois Paris</li>
+        <li class="on">Suivi quotidien</li>
+        <li class="on">Bilan sanguin analysé</li>
+        <li class="on">Plan sur 6 mois</li>
+        <li class="on">Accès direct 7j/7</li>
+      </ul>
+      <div class="prog-price">449€<span style="font-size:1rem;color:var(--gray)">/mois</span></div>
+      <div class="prog-price-sub">Engagement 3 mois</div>
+      <a href="#booking" class="btn-prog btn-prog-out"><span>Commencer →</span></a>
+    </div>
+  </div>
+</section>
+
+<section class="format" id="format">
+  <div class="fmt-item r d1">
+    <div class="fmt-ico">💻</div>
+    <div>
+      <div class="fmt-tag">Format disponible</div>
+      <div class="fmt-title">EN LIGNE</div>
+      <div class="fmt-desc">Programme personnalisé, suivi via app, check-in hebdomadaire en visio. Disponible partout, à ton rythme. Idéal pour la salle ou le domicile.</div>
+      <span class="fmt-badge">Disponible immédiatement</span>
+    </div>
+  </div>
+  <div class="fmt-item r d2">
+    <div class="fmt-ico">🏋️</div>
+    <div>
+      <div class="fmt-tag">Format disponible</div>
+      <div class="fmt-title">PRÉSENTIEL PARIS</div>
+      <div class="fmt-desc">Séances individuelles à Paris. Coaching technique, corrections en temps réel, motivation maximale. Salles partenaires dans tout Paris.</div>
+      <span class="fmt-badge">Paris · Sur rendez-vous</span>
+    </div>
+  </div>
+</section>
+
+<section class="nutrition">
+  <div class="nut-left r">
+    <div class="nut-tag">Nutrition</div>
+    <h2 class="nut-h2">Manger bien,<br>c'est 70%<br>du résultat.</h2>
+    <p class="nut-p">Chaque programme inclut un plan nutritionnel complet. Pas de régimes impossibles — une alimentation adaptée à ta vie réelle.</p>
+  </div>
+  <div class="nut-right r d2">
+    <div class="nut-item"><div class="nut-item-ico">📊</div><div class="nut-item-text">Macros calculées<span>Protéines, glucides, lipides adaptés à tes objectifs</span></div></div>
+    <div class="nut-item"><div class="nut-item-ico">🍽️</div><div class="nut-item-text">Repas adaptés<span>Recettes simples selon tes préférences et contraintes</span></div></div>
+    <div class="nut-item"><div class="nut-item-ico">📱</div><div class="nut-item-text">Suivi via app<span>Log alimentaire quotidien, feedback immédiat</span></div></div>
+    <div class="nut-item"><div class="nut-item-ico">🔄</div><div class="nut-item-text">Ajustements continus<span>Le plan évolue avec tes résultats chaque semaine</span></div></div>
+  </div>
+</section>
+
+<section class="booking" id="booking">
+  <div class="bk-inner">
+    <div class="r">
+      <div class="bk-tag">Commencer</div>
+      <h2 class="bk-h2">Ton programme<br><em>t'attend.</em></h2>
+      <p class="bk-p">Remplis ce formulaire — je t'envoie un plan de démarrage gratuit et personnalisé dans les 24h.</p>
+      <div class="bk-infos">
+        <div class="bk-info"><div class="bi-ico">✉️</div><div class="bi-label">Email</div><div class="bi-val">maxime@coaching.fr</div></div>
+        <div class="bk-info"><div class="bi-ico">📍</div><div class="bi-label">Zones</div><div class="bi-val">Paris + En ligne · France entière</div></div>
+        <div class="bk-info"><div class="bi-ico">⏰</div><div class="bi-label">Délai</div><div class="bi-val">Réponse sous 24h</div></div>
+      </div>
+    </div>
+    <div class="bk-form r d2">
+      <div class="bk-form-title">Ton profil</div>
+      <div class="bk-grid">
+        <input type="text" class="bk-input" placeholder="Prénom">
+        <input type="text" class="bk-input" placeholder="Nom">
+        <input type="email" class="bk-input bk-full" placeholder="Email">
+        <select class="bk-select"><option>Objectif principal</option><option>Perte de poids</option><option>Prise de muscle</option><option>Performance sportive</option><option>Remise en forme générale</option></select>
+        <select class="bk-select"><option>Niveau actuel</option><option>Débutant complet</option><option>Quelques mois d'expérience</option><option>Pratique régulière</option><option>Sportif confirmé</option></select>
+        <select class="bk-select bk-full"><option>Format préféré</option><option>En ligne</option><option>Présentiel Paris</option><option>Hybride</option></select>
+        <textarea class="bk-input bk-full" rows="2" placeholder="Contraintes ou infos utiles... (optionnel)" style="resize:none"></textarea>
+      </div>
+      <button class="bk-submit" onclick="subForm()"><span>Envoyer mon profil →</span></button>
+    </div>
+  </div>
+</section>
+
+<section class="blog" id="blog">
+  <div class="blog-header r">
+    <div class="blog-eyebrow">Blog & Conseils</div>
+    <h2 class="blog-h2">Apprendre pour <em>progresser.</em></h2>
+  </div>
+  <div class="blog-grid">
+    <div class="blog-item r d1">
+      <div class="blog-tag">Nutrition</div>
+      <h3 class="blog-title">Les 5 erreurs qui sabotent ta prise de muscle</h3>
+      <p class="blog-desc">Manger trop peu de protéines, négliger le sommeil, changer de programme trop souvent... Voilà les pièges les plus fréquents et comment les éviter.</p>
+      <div class="blog-meta">5 min · 12 jan 2025</div>
+    </div>
+    <div class="blog-item r d2">
+      <div class="blog-tag">Entraînement</div>
+      <h3 class="blog-title">Débutant : par où commencer sans se blesser</h3>
+      <p class="blog-desc">Un programme bien structuré, une progression raisonnée, et les bons exercices de base. Tout ce qu'il faut savoir avant ta première séance.</p>
+      <div class="blog-meta">7 min · 28 jan 2025</div>
+    </div>
+    <div class="blog-item r d3">
+      <div class="blog-tag">Motivation</div>
+      <h3 class="blog-title">Comment rester régulier quand la motivation disparaît</h3>
+      <p class="blog-desc">La motivation est une émotion, pas un système. Voilà comment construire des habitudes solides qui survivent aux mauvais jours.</p>
+      <div class="blog-meta">6 min · 14 fév 2025</div>
+    </div>
+  </div>
+</section>
+
+<section class="testi">
+  <div class="testi-header r">
+    <div class="t-eyebrow">Témoignages</div>
+    <h2 class="t-h2">Ils ont <em>transformé.</em></h2>
+  </div>
+  <div class="t-grid">
+    <div class="tc r d1"><div class="tc-stars">★★★★★</div><p class="tc-text">En 10 semaines j'ai perdu 9kg sans me sentir en régime. Le suivi est top, Maxime répond toujours rapidement. Pour la première fois j'ai tenu un programme jusqu'au bout.</p><div class="tc-auth"><div class="tc-av">S</div><div><div class="tc-name">Sarah L.</div><div class="tc-role">Programme Transformation · En ligne</div></div></div><div class="tc-result">🔥 -9kg en 10 semaines</div></div>
+    <div class="tc r d2"><div class="tc-stars">★★★★★</div><p class="tc-text">J'avais essayé 4 coachs avant. C'est le premier qui a pris le temps de comprendre mes contraintes. Le programme s'adapte à ma vie, pas l'inverse.</p><div class="tc-auth"><div class="tc-av">T</div><div><div class="tc-name">Thomas K.</div><div class="tc-role">Programme Elite · Paris + En ligne</div></div></div><div class="tc-result">💪 +8kg de muscle en 4 mois</div></div>
+    <div class="tc r d3"><div class="tc-stars">★★★★★</div><p class="tc-text">Je cours un semi-marathon dans 3 mois, je n'y croyais pas il y a 6 mois. La progression est logique, les séances sont intenses mais accessibles.</p><div class="tc-auth"><div class="tc-av">M</div><div><div class="tc-name">Marie C.</div><div class="tc-role">Programme Starter · En ligne</div></div></div><div class="tc-result">🏃 Semi-marathon en préparation</div></div>
+  </div>
+</section>
+
+<section class="faq" id="faq">
+  <div class="faq-inner">
+    <div class="r">
+      <h2 class="faq-h2">Questions<br><em>fréquentes.</em></h2>
+      <p class="faq-note">Autre question ? Écris-moi directement.</p>
+    </div>
+    <div class="faq-list r d2">
+      <div class="fi"><button class="fq" onclick="tfaq(this)">Je suis débutant complet, c'est fait pour moi ?<span class="fi-ico"></span></button><div class="fa">Absolument. La majorité de mes clients commencent sans aucune expérience. Le programme Starter est conçu pour partir de zéro — chaque exercice est expliqué. Aucun prérequis nécessaire.</div></div>
+      <div class="fi"><button class="fq" onclick="tfaq(this)">Je n'ai pas de salle de sport ?<span class="fi-ico"></span></button><div class="fa">Pas de problème. Je crée des programmes adaptés à ta situation — salle, domicile avec ou sans matériel, extérieur. Dis-moi ce que t'as, je m'adapte.</div></div>
+      <div class="fi"><button class="fq" onclick="tfaq(this)">Combien de temps par semaine faut-il ?<span class="fi-ico"></span></button><div class="fa">Entre 3 et 5h par semaine selon le programme. Je construis le planning en fonction de tes disponibilités réelles — pas d'un emploi du temps idéal.</div></div>
+      <div class="fi"><button class="fq" onclick="tfaq(this)">Et si je ne vois pas de résultats ?<span class="fi-ico"></span></button><div class="fa">Si tu appliques le programme et ne vois pas de résultats dans les 4 premières semaines, je te rembourse intégralement. Le programme s'ajuste chaque semaine selon tes retours.</div></div>
+      <div class="fi"><button class="fq" onclick="tfaq(this)">Les séances présentiel, c'est où à Paris ?<span class="fi-ico"></span></button><div class="fa">Je travaille avec plusieurs salles partenaires dans Paris. On choisit ensemble la plus proche de chez toi. Je me déplace aussi à domicile sur demande.</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="cta">
+  <div class="cta-inner">
+    <div class="cta-tag">Commence aujourd'hui</div>
+    <h2 class="cta-h2 r">Prêt à te<br><em>transformer ?</em></h2>
+    <p class="cta-sub r d1">Laisse ton email — je t'envoie un plan de démarrage gratuit et personnalisé dans les 24h.</p>
+    <div class="cta-form r d2">
+      <input type="email" class="cta-input" placeholder="ton@email.com" id="ctaemail">
+      <button class="cta-submit" onclick="subCta()"><span>Plan gratuit →</span></button>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div>
+    <span class="ft-logo">MAXIME <em>COACH</em></span>
+    <div class="ft-tag">Coach sportif certifié · Paris & En ligne</div>
+    <p class="ft-desc">Programmes personnalisés pour perdre du gras, prendre du muscle, ou améliorer ta performance. Résultats garantis.</p>
+  </div>
+  <div class="ft-col"><h5>Programmes</h5><ul><li>Starter</li><li>Transformation</li><li>Elite</li><li>Sur mesure</li></ul></div>
+  <div class="ft-col"><h5>Format</h5><ul><li>Coaching en ligne</li><li>Séances Paris</li><li>Hybride</li><li>Nutrition incluse</li></ul></div>
+  <div class="ft-col"><h5>Contact</h5><ul><li>Paris, France</li><li>maxime@coaching.fr</li><li>Réponse sous 24h</li><li>7j/7</li></ul></div>
+</footer>
+<div class="foot-bot">
+  <span>© 2025 Maxime Coach · Paris · Certifié</span>
+  <span>Résultats garantis · Remboursé si non satisfait</span>
+</div>
+
+<script>
+const c1=document.getElementById('cur'),c2=document.getElementById('cur2');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;c1.style.left=mx+'px';c1.style.top=my+'px';});
+(function loop(){rx+=(mx-rx)*.11;ry+=(my-ry)*.11;c2.style.left=rx+'px';c2.style.top=ry+'px';requestAnimationFrame(loop);})();
+window.addEventListener('scroll',()=>document.getElementById('nav').classList.toggle('solid',window.scrollY>30));
+let mo=false;
+function toggleM(){mo=!mo;document.getElementById('mov').classList.toggle('open',mo);document.getElementById('hbg').classList.toggle('open',mo);document.body.style.overflow=mo?'hidden':'';}
+function closeM(){mo=false;document.getElementById('mov').classList.remove('open');document.getElementById('hbg').classList.remove('open');document.body.style.overflow='';}
+function tfaq(btn){const fi=btn.closest('.fi'),op=fi.classList.contains('open');document.querySelectorAll('.fi.open').forEach(e=>e.classList.remove('open'));if(!op)fi.classList.add('open');}
+function subForm(){alert('Profil envoyé — plan gratuit dans les 24h !');}
+function subCta(){const i=document.getElementById('ctaemail');if(i.value&&i.value.includes('@')){i.value='';i.placeholder='✓ Reçu — plan dans les 24h.';}else{i.placeholder='Email invalide.';}}
+const obs=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('v');obs.unobserve(e.target);}}),{threshold:.08});
+document.querySelectorAll('.r').forEach(el=>obs.observe(el));
+</script>
+</body>
+</html>
